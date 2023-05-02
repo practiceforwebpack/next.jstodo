@@ -12,5 +12,4 @@ const TodolistPage = () => {
     </div>
   );
 };
-console.log(App, TodoListItem);
 export default TodolistPage;

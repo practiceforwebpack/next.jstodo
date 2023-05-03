@@ -2,6 +2,7 @@ import React from "react";
 
 import App, { TodoListItem } from "@2chaos/webpack_react_todolist";
 const TodolistPage = () => {
+  fetch("/hello");
   return (
     <div>
       <meta

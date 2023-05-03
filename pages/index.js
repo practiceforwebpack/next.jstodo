@@ -2,7 +2,6 @@ import React from "react";
 
 import App, { TodoListItem } from "@2chaos/webpack_react_todolist";
 const TodolistPage = () => {
-  fetch("/hello");
   return (
     <div>
       <meta
@@ -14,3 +13,7 @@ const TodolistPage = () => {
   );
 };
 export default TodolistPage;
+fetch("/api/hello")
+  .then((res) => res.json())
+  .then((data) => console.log(data))
+  .catch((err) => console.error(err));

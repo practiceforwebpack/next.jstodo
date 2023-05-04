@@ -16,8 +16,30 @@ function Home() {
 
   return (
     <div>
-      <button onClick={handleClick}>Say hello!</button>
+      <button onClick={handleClick} className="button-primary">
+        Say hello!
+      </button>
       {message && <p>{message}</p>}
+
+      <style jsx>{`
+        .button-primary {
+          background-color: #1fa3ec;
+          border: none;
+          border-radius: 4px;
+          color: #ffffff;
+          font-size: 1rem;
+          font-weight: 600;
+          padding: 0.75rem 1.5rem;
+          text-align: center;
+          text-decoration: none;
+          transition: background-color 0.2s ease;
+        }
+
+        .button-primary:hover {
+          background-color: #0a78b9;
+          cursor: pointer;
+        }
+      `}</style>
     </div>
   );
 }

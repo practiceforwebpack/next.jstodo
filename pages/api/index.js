@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 
-import App, { TodoListItem } from "@2chaos/webpack_react_todolist";
-const TodolistPage = () => {
+function Home() {
+  const [message, setMessage] = useState(null);
+
+  async function handleClick() {
+    const response = await fetch("/api/hello");
+    const data = await response.json();
+    setMessage(data.message);
+  }
+
   return (
     <div>
-      <meta
-        name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-      ></meta>
-      <App />
+      <button onClick={handleClick}>Say hello!</button>
+      {message && <p>{message}</p>}
     </div>
   );
-};
-export default TodolistPage;
-fetch("/hello")
-  .then((res) => res.json())
-  .then((data) => console.log(data))
-  .catch((err) => console.error(err));
+}
+
+export default Home;

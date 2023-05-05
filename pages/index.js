@@ -9,6 +9,15 @@ const TodolistPage = () => {
         content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
       ></meta>
       <App />
+      <button
+        onClick={() =>
+          fetch("/api/hello")
+            .then((e) => e.json())
+            .then((e) => console.log(e))
+        }
+      >
+        XXX
+      </button>
     </div>
   );
 };

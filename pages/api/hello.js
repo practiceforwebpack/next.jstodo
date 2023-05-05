@@ -1,7 +1,5 @@
-export default (req, res) => {
-  res.status(200).json({ message: "Hello, Next.js API!" });
+export default async (req, res) => {
+  const baidu = await fetch("https://www.baidu.com").then((e) => e.text());
+  console.log(baidu);
+  res.status(200).json({ message: baidu });
 };
-fetch("/api/hello")
-  .then((res) => res.json())
-  .then((data) => console.log(data))
-  .catch((err) => console.error(err));

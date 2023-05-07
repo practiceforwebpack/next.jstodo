@@ -11,17 +11,11 @@ export default async function handler(req, res) {
 
     const title = $("title").text();
     const firstImgSrc = $("img").eq(0).attr("src");
-
-    const meta = $("meta")
-      .map((i, el) => ({
-        content: $(el).attr("content"),
-      }))
-      .get();
-
+    const description = $('meta[name="description"]').attr("content");
     const data = {
       title,
       firstImgSrc,
-      meta,
+      description,
     };
 
     res.status(200).json(data);

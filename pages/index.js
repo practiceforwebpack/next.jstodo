@@ -1,63 +1,96 @@
-import React, { useState } from "react";
-import App from "@2chaos/webpack_react_todolist";
+import { useState } from "react";
 
-const TodolistPage = () => {
-  const [url, setUrl] = useState("");
-  const [cardInfo, setCardInfo] = useState({
-    title: "",
-    firstImgSrc: "",
-    description: "",
-  });
+export default function Home() {
+  const [data, setData] = useState(null);
 
-  const handleUrlInputChange = (event) => {
-    setUrl(event.target.value);
-  };
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // 防止表单默认提交行为
+    const url = e.target.url.value;
+    try {
+      const response = await fetch("/api/scrape", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ url }),
+      });
 
-  const handleUrlInputKeyDown = async (event) => {
-    if (event.key === "Enter") {
-      try {
-        const response = await fetch("/api/fetch-url-input", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url }),
-        });
-        const data = await response.json();
-        setCardInfo(data);
-      } catch (error) {
-        console.error(error);
-      }
-      setUrl("");
+      const result = await response.json();
+      setData(result);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   return (
-    <div>
-      <meta
-        name="viewport"
-        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
-      />
-      <App />
+    <div className="container">
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="url" placeholder="Enter url" />
+        <button type="submit">Scrape</button>
+      </form>
 
-      <input
-        style={{ width: 1293 }}
-        placeholder="请输入网址并按下回车"
-        value={url}
-        onChange={handleUrlInputChange}
-        onKeyDown={handleUrlInputKeyDown}
-        onKeyUp={() => {
-          // do nothing
-        }}
-      />
-
-      {cardInfo.title && (
-        <div>
-          <h2>{cardInfo.title}</h2>
-          <img src={cardInfo.firstImgSrc} alt="previewImg" />
-          <p>{cardInfo.description}</p>
-        </div>
+      {data && (
+        <div
+          className="wx-card"
+          dangerouslySetInnerHTML={{ __html: data.html }}
+        />
       )}
+
+      <style jsx>{`
+        .container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+        form {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 20px;
+        }
+        input {
+          padding: 8px;
+          margin: 10px;
+          border-radius: 5px;
+          border: none;
+        }
+        button {
+          padding: 8px 16px;
+          border-radius: 5px;
+          border: none;
+          color: #fff;
+          background-color: #333;
+          cursor: pointer;
+        }
+        button:hover {
+          background-color: #555;
+        }
+        .wx-card {
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+          width: 300px;
+          height: 160px;
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+          overflow: hidden;
+        }
+        h2,
+        p {
+          margin: 10px;
+        }
+        img {
+          width: 100px;
+          height: 100px;
+          margin-right: 10px;
+        }
+        .wx-card-content {
+          flex: 1;
+          width: 100%;
+          padding: 10px;
+        }
+      `}</style>
     </div>
   );
-};
-
-export default TodolistPage;
+}

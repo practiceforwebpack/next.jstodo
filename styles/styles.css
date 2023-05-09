@@ -1,0 +1,31 @@
+.wx-card {
+  @apply flex flex-col w-320 h-80 bg-white rounded-lg shadow overflow-hidden;
+}
+
+.wx-card-title {
+  @apply flex items-center h-40 bg-gray-200 px-4;
+}
+
+.wx-card-title h2 {
+  @apply text-lg font-semibold m-0;
+}
+
+.wx-card-content {
+  @apply flex items-center h-120 w-full px-10;
+}
+
+.wx-card-description {
+  @apply flex flex-col justify-center items-start flex-2 pr-20 mr-20;
+}
+
+.wx-card-description p {
+  @apply m-0 text-gray-700 text-base;
+}
+
+.wx-card-image {
+  @apply flex justify-center items-center flex-1;
+}
+
+.wx-card-image img {
+  @apply w-20 h-20 object-cover;
+}

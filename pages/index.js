@@ -9,9 +9,7 @@ export default function Home() {
     try {
       const response = await fetch("/api/fetch-url", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ url }),
       });
       const data = await response.text();
@@ -23,32 +21,31 @@ export default function Home() {
   };
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center">
+      {" "}
+      <form className="mt-4 flex flex-col" onSubmit={handleSubmit}>
+        {" "}
         <input
+          className="h-10 px-2 border rounded-lg"
           type="text"
           placeholder="输入url按回车键确认"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-        />
-        <button type="submit">Fetch Data</button>
-      </form>
+        />{" "}
+        <button
+          className="h-10 bg-blue-500 text-white rounded-lg px-4 ml-2"
+          type="submit"
+        >
+          {" "}
+          Fetch Data{" "}
+        </button>{" "}
+      </form>{" "}
       {cardHTML && (
         <div
+          className="w-320 h-160 flex items-center bg-white rounded-lg shadow-md overflow-hidden justify-center"
           dangerouslySetInnerHTML={{ __html: cardHTML }}
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            width: "300px",
-            height: "160px",
-            backgroundColor: "#fff",
-            borderRadius: "10px",
-            boxShadow: "0 0 5px rgba(0, 0, 0, 0.3)",
-            overflow: "hidden",
-          }}
         ></div>
-      )}
+      )}{" "}
     </div>
   );
 }

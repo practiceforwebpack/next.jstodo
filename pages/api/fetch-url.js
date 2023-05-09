@@ -13,7 +13,8 @@ export default async function handler(req, res) {
     const data = { title, firstImgSrc, description };
 
     // Generate the card
-    const card = `<div class="wx-card">
+    const card = `
+    <div class="wx-card">
       <div class="wx-card-title">
         <h2>${data.title}</h2>
       </div>
@@ -30,66 +31,51 @@ export default async function handler(req, res) {
       .wx-card {
         display: flex;
         flex-direction: column;
-        width: 100%;
+        align-items: center;
+        width: 300px;
         height: 160px;
         background-color: #fff;
         border-radius: 10px;
         box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
         overflow: hidden;
       }
-
+      
       .wx-card-title {
         display: flex;
-        flex-direction: row;
         align-items: center;
+        justify-content: center;
+        width: 100%;
         height: 40px;
-        background-color: #f2f2f2;
-        padding-left: 20px;
+        font-size: 16px;
       }
-
-      .wx-card-title h2 {
-        font-size: 18px;
-        margin: 0;
+      
+      h2, p {
+        margin: 10px;
       }
-
+     
+      img {
+        width: 80px;
+        height: 80px;
+        margin-right: 10px;
+        float: left;
+      }
+      
       .wx-card-content {
         display: flex;
         flex-direction: row;
+        justify-content: space-between;
         align-items: center;
-        height: 120px;
         width: 100%;
+        height: 120px;     
         padding: 10px;
-      }
 
+      }
+      
       .wx-card-description {
-        flex: 2;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: flex-start;
-        padding-right: 20px;
-        margin-right: 20px;
+        width: 60%;
       }
-
-      .wx-card-description p {
-        margin: 0;
-        font-size: 14px;
-      }
-
-      .wx-card-image {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-      }
-
-      .wx-card-image img {
-        width: 100px;
-        height: 100px;
-        object-fit: cover;
-      }
-    </style>`;
-
+    </style>
+  `;
     res.status(200).send(card);
   } catch (error) {
     console.log(error);

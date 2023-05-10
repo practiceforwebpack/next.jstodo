@@ -52,11 +52,11 @@ export default async function handler(req, res) {
       
       h2 {
         color:rgba(0,0,0,0.85);
-        font-size:24;
+        font-size:20px;
       }
      p{
       color:rgba(0,0,0,0.65);
-      font-size:14;
+      font-size:12px;
     
      }
       img {

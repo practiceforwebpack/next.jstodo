@@ -29,6 +29,7 @@ export default async function handler(req, res) {
     </div>
     <style>
       .wx-card {
+        padding:24
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -46,7 +47,7 @@ export default async function handler(req, res) {
         justify-content: center;
         width: 100%;
         height: 40px;
-        font-size: 16px;
+        font-size: 24;
       }
       
       h2, p {
@@ -67,12 +68,15 @@ export default async function handler(req, res) {
         align-items: center;
         width: 100%;
         height: 120px;     
-        padding: 10px;
+        padding: 24;
 
       }
       
       .wx-card-description {
+        margin:10;
+        font-size:12;
         width: 60%;
+  
       }
     </style>
   `;

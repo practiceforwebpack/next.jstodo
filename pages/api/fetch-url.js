@@ -42,18 +42,23 @@ export default async function handler(req, res) {
       }
       
       .wx-card-title {
+        color:rgba(0,0,0,0.85);
         display: flex;
         align-items: center;
         justify-content: center;
         width: 100%;
         height: 40px;
-        font-size: 24;
       }
       
-      h2, p {
-        margin: 10px;
+      h2 {
+        color:rgba(0,0,0,0.85);
+        font-size:24;
       }
-     
+     p{
+      color:rgba(0,0,0,0.65);
+      font-size:14;
+    
+     }
       img {
         width: 80px;
         height: 80px;
@@ -62,13 +67,14 @@ export default async function handler(req, res) {
       }
       
       .wx-card-content {
+        font-size:14;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         align-items: center;
         width: 100%;
         height: 120px;     
-        padding: 24;
+        padding: 12px;
 
       }
       

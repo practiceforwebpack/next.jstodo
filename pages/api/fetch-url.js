@@ -12,7 +12,6 @@ export default async function handler(req, res) {
     const description = $('meta[name="description"]').attr("content");
     const data = { title, firstImgSrc, description };
 
-    // Generate the card
     const card = `
     <div class="wx-card">
       <div class="wx-card-title">

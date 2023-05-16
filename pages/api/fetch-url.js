@@ -1,8 +1,9 @@
 import cheerio from "cheerio";
+
 //5
+
 export default async function handler(req, res) {
   const { url } = req.body;
-
   try {
     const response = await fetch(url);
     const html = await response.text();
@@ -28,7 +29,7 @@ export default async function handler(req, res) {
     </div>
     <style>
       .wx-card {
-        padding:24
+        padding:12px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -44,24 +45,33 @@ export default async function handler(req, res) {
         color:rgba(0,0,0,0.85);
         display: flex;
         align-items: center;
-        justify-content: center;
         width: 100%;
         height: 40px;
+        text-overflow: ellipsis;
+        word-break: break-all;
+        white-space: nowrap;
+   
       }
       
       h2 {
         color:rgba(0,0,0,0.85);
         font-size:20px;
+        text-overflow:ellipsis;
+                
       }
      p{
       color:rgba(0,0,0,0.65);
       font-size:12px;
+      text-overflow:ellipsis;
+      
+              
     
      }
       img {
-        width: 80px;
-        height: 80px;
-        margin-right: 10px;
+        padding:20px;
+        width: 90px;
+        text-align: center;
+        margin-button: 20px;
         float: left;
       }
       
@@ -74,14 +84,18 @@ export default async function handler(req, res) {
         width: 100%;
         height: 120px;     
         padding: 12px;
-
-      }
-      
+        overflow: hidden;
+       
+      }      
       .wx-card-description {
         margin:10;
         font-size:12;
         width: 60%;
-  
+        word-break: break-all;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 7;
+        -webkit-box-orient: vertical;
       }
     </style>
   `;

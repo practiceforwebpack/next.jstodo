@@ -1,13 +1,13 @@
 import cheerio from "cheerio";
+import got from "got";
 
 //5
 
 export default async function handler(req, res) {
   const { url } = req.body;
   try {
-    const response = await fetch(url);
-    const html = await response.text();
-    const $ = cheerio.load(html);
+    const response = await got(url);
+    const $ = cheerio.load(response.body);
     const title = $("title").text();
     const firstImgSrc = $("img").eq(0).attr("src");
     const description = $('meta[name="description"]').attr("content");

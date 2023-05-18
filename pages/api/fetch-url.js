@@ -8,9 +8,22 @@ export default async function handler(req, res) {
   try {
     const options = {
       headers: {
+        Accept:
+          "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8",
+        "Accept-Encoding": "gzip, deflate, br",
+        "Accept-Language": "en-US,en;q=0.5",
+        "Cache-Control": "no-cache",
+        Connection: "keep-alive",
+        Cookie:
+          "__cfduid=abcd1234; _ga=GA1.2.1234567890.1234567890; __gads=ID=1234567890abcdef:T=1234567890:S=ALNI_Mbabcdefg",
+        DNT: "1",
+        Referer: "https://www.google.com",
+        TE: "Trailers",
+        "Upgrade-Insecure-Requests": "1",
         "User-Agent":
-          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3",
-        Referer: url,
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/92.0.4515.159 Safari/537.36",
+
+        //Referer: url,
       },
     };
 

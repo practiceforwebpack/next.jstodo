@@ -1,5 +1,4 @@
 import puppeteer from "puppeteer";
-//5
 export default async function handler(req, res) {
   const { url } = req.body;
   try {

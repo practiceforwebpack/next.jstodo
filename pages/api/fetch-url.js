@@ -4,6 +4,7 @@ export default async function handler(req, res) {
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();
+    await page.setExtraHTTPHeaders({ "Accept-Charset": "utf-8" });
     await page.goto(url, { waitUntil: "networkidle0" });
 
     const title = await page.title();

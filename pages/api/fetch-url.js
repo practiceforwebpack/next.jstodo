@@ -1,6 +1,6 @@
 import puppeteer from "puppeteer";
 export default async function handler(req, res) {
-  const { url } = req.body;
+  const { url } = req.query;
   try {
     const browser = await puppeteer.launch();
     const page = await browser.newPage();

@@ -8,7 +8,7 @@ export default function Home() {
     try {
       const response = await fetch("/api/fetch-url", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json; charset=utf-8" }, // 设置请求头中的编码方式为 utf-8
         body: JSON.stringify({ url }),
       });
       const data = await response.text();

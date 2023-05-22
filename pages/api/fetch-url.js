@@ -1,21 +1,17 @@
-import puppeteer from "puppeteer";
+import cheerio from "cheerio";
+
+//5
+
 export default async function handler(req, res) {
   const { url } = req.query;
-  try {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-    await page.setExtraHTTPHeaders({ "Accept-Charset": "utf-8" });
-    await page.goto(url, { waitUntil: "networkidle0" });
 
-    const title = await page.title();
-    console.log(title);
-    console.log("1");
-    const firstImgSrc = await page.$eval("img", (img) =>
-      img.getAttribute("src")
-    );
-    const description = await page.$eval('meta[name="description"]', (meta) =>
-      meta.getAttribute("content")
-    );
+  try {
+    const response = await fetch(url);
+    const html = await response.text();
+    const $ = cheerio.load(html);
+    const title = $("title").text();
+    const firstImgSrc = $("img").eq(0).attr("src");
+    const description = $('meta[name="description"]').attr("content");
     const data = { title, firstImgSrc, description };
 
     const card = `
@@ -106,7 +102,6 @@ export default async function handler(req, res) {
   `;
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.status(200).send(card);
-    await browser.close();
   } catch (error) {
     console.log(error);
     res.status(500).json({ message: "Error" });

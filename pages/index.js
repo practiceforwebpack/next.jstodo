@@ -1,8 +1,16 @@
-import { useState } from "react";
-//,
+import { useState, useEffect } from "react";
+import { useRouter } from "next/router";
+
 export default function Home() {
+  const router = useRouter();
   const [url, setUrl] = useState("");
   const [cardHTML, setCardHTML] = useState("");
+
+  // 当路由参数发生变化时更新 URL 状态
+  useEffect(() => {
+    setUrl(router.query.url || "");
+  }, [router.query.url]);
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
@@ -20,31 +28,28 @@ export default function Home() {
   };
 
   return (
-    <div class="flex flex-col items-center">
-      {" "}
-      <form class="mt-4 flex flex-col" onSubmit={handleSubmit}>
-        {" "}
+    <div className="flex flex-col items-center">
+      <form className="mt-4 flex flex-col" onSubmit={handleSubmit}>
         <input
-          class="h-10 px-2 border rounded-lg"
+          className="h-10 px-2 border rounded-lg"
           type="text"
-          placeholder="输入url按回车键确认"
+          placeholder="Enter URL and press Enter"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
-        />{" "}
+        />
         <button
-          class="h-10 bg-blue-500 text-white rounded-lg px-4 ml-2"
+          className="h-10 bg-blue-500 text-white rounded-lg px-4 ml-2"
           type="submit"
         >
-          {" "}
-          Fetch Data{" "}
-        </button>{" "}
-      </form>{" "}
+          Fetch Data
+        </button>
+      </form>
       {cardHTML && (
         <div
-          class="w-320 h-160 flex items-center bg-white rounded-lg shadow-md overflow-hidden justify-center"
+          className="w-320 h-160 flex items-center bg-white rounded-lg shadow-md overflow-hidden justify-center"
           dangerouslySetInnerHTML={{ __html: cardHTML }}
         ></div>
-      )}{" "}
+      )}
     </div>
   );
 }

@@ -6,11 +6,14 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("/api/fetch-url", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
-      });
+      const response = await fetch(
+        `/api/fetch-url?url=${encodeURIComponent(url)}`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ url: encodeURIComponent(url) }),
+        }
+      );
       const data = await response.text();
       setCardHTML(data);
     } catch (error) {

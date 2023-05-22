@@ -6,14 +6,13 @@ export default function Home() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(
-        `/api/fetch-url?url=${encodeURIComponent(url)}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ url: encodeURIComponent(url) }),
-        }
-      );
+      const response = await fetch("/api/fetch-url", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          url: "https://previewlink.chentaotie.com/api/fetch-url",
+        }), // 将实际访问的URL放在这里
+      });
       const data = await response.text();
       setCardHTML(data);
     } catch (error) {

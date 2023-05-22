@@ -9,9 +9,7 @@ export default function Home() {
       const response = await fetch("/api/fetch-url", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          url: "https://previewlink.chentaotie.com/api/fetch-url",
-        }), // 将实际访问的URL放在这里
+        body: JSON.stringify({ url }),
       });
       const data = await response.text();
       setCardHTML(data);

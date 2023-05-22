@@ -3,19 +3,18 @@ import cheerio from "cheerio";
 //5
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
-    const { url } = req.body;
+  const { url } = req.query;
 
-    try {
-      const response = await fetch(url);
-      const html = await response.text();
-      const $ = cheerio.load(html);
-      const title = $("title").text();
-      const firstImgSrc = $("img").eq(0).attr("src");
-      const description = $('meta[name="description"]').attr("content");
-      const data = { title, firstImgSrc, description };
+  try {
+    const response = await fetch(url);
+    const html = await response.text();
+    const $ = cheerio.load(html);
+    const title = $("title").text();
+    const firstImgSrc = $("img").eq(0).attr("src");
+    const description = $('meta[name="description"]').attr("content");
+    const data = { title, firstImgSrc, description };
 
-      const card = `
+    const card = `
     <div class="wx-card">
       <div class="wx-card-title">
         <h2>${data.title}</h2>
@@ -101,11 +100,10 @@ export default async function handler(req, res) {
       }
     </style>
   `;
-      res.setHeader("Content-Type", "text/html; charset=utf-8");
-      res.status(200).send(card);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: "Error" });
-    }
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.status(200).send(card);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "Error" });
   }
 }

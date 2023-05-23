@@ -1,10 +1,12 @@
 import cheerio from "cheerio";
 
+//5
+
 export default async function handler(req, res) {
-  const { source } = req.query;
+  const { url } = req.query;
 
   try {
-    const response = await fetch(source);
+    const response = await fetch(url);
     const html = await response.text();
     const $ = cheerio.load(html);
     const title = $("title").text();

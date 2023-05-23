@@ -1,31 +1,18 @@
-import React, { useState, useEffect } from "react";
 import Head from "next/head";
-
-const isValidURL = (str) => {
-  const pattern = new RegExp(
-    "^(https?:\\/\\/)?" + // protocol
-      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}" + // domain name
-      "|((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
-      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
-      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
-      "(\\#[-a-z\\d_]*)?$",
-    "i"
-  );
-  return !!pattern.test(str);
-};
+import { useState, useEffect } from "react";
 
 export default function Home() {
   const [cardHTML, setCardHTML] = useState("");
-  const [pageTitle, setPageTitle] = useState("Fetch URL Card"); // Initialize title with a default value
+  const [pageTitle, setPageTitle] = useState("");
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
     if (!url) {
-      // If no URL is in the query parameter, do not attempt to fetch
       return;
     }
     if (!isValidURL(url)) {
+      setPageTitle("Invalid URL");
       setCardHTML("Invalid URL");
       return;
     }
@@ -34,12 +21,9 @@ export default function Home() {
       try {
         const response = await fetch(`/api/fetch-url?url=${url}`);
         const data = await response.text();
-        // Get webpage title
-        const pageTitle = new DOMParser().parseFromString(
-          data,
-          "text/html"
-        ).title;
-        setPageTitle(pageTitle); // Set the title from webpage title
+        const parsedHTML = new DOMParser().parseFromString(data, "text/html");
+        const title = parsedHTML.querySelector("title");
+        setPageTitle(title?.textContent || "Fetch URL Card");
         setCardHTML(data);
       } catch (error) {
         console.error(error);
@@ -52,7 +36,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>{pageTitle}</title>
+        <title>{pageTitle || "Fetch URL Card"}</title>
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -71,3 +55,12 @@ export default function Home() {
     </div>
   );
 }
+
+const isValidURL = (url) => {
+  try {
+    new URL(url);
+    return true;
+  } catch (error) {
+    return false;
+  }
+};

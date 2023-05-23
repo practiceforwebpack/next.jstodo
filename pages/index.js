@@ -33,21 +33,25 @@ export default function Home() {
       try {
         const response = await fetch(`/api/fetch-url?url=${url}`);
         const data = await response.text();
-        // Extract webpage title
-        const titleMatch = data.match(/<title>(.*)<\/title>/);
-        const title = titleMatch ? titleMatch[1] : "Fetch URL Card";
-        document.title = title;
+        // Get webpage title
+        const pageTitle = new DOMParser().parseFromString(
+          data,
+          "text/html"
+        ).title;
+        document.title = pageTitle;
         setCardHTML(data);
       } catch (error) {
         console.error(error);
         setCardHTML("An error occurred");
       }
     };
+    fetchData();
+  }, []);
 
   return (
     <div>
       <Head>
-        <title>网页详情</title>
+        <title>title</title>
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

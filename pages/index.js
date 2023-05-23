@@ -16,6 +16,7 @@ const isValidURL = (str) => {
 
 export default function Home() {
   const [cardHTML, setCardHTML] = useState("");
+  const [pageTitle, setPageTitle] = useState("Fetch URL Card"); // Initialize title with a default value
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -38,7 +39,7 @@ export default function Home() {
           data,
           "text/html"
         ).title;
-        document.title = pageTitle;
+        setPageTitle(pageTitle); // Set the title from webpage title
         setCardHTML(data);
       } catch (error) {
         console.error(error);
@@ -63,6 +64,10 @@ export default function Home() {
           <p>No URL was provided in the query parameter.</p>
         )}
       </main>
+
+      <style jsx>{`
+        // your CSS styles
+      `}</style>
     </div>
   );
 }

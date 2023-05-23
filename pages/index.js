@@ -51,7 +51,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>title</title>
+        <title>{pageTitle}</title>
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

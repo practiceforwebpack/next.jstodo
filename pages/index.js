@@ -27,17 +27,17 @@ export default function Home() {
   };
 
   return (
-    <div class="flex flex-col items-center">
-      <form class="mt-4 flex flex-col" onSubmit={handleSubmit}>
+    <div className="flex flex-col items-center">
+      <form className="mt-4 flex flex-col" onSubmit={handleSubmit}>
         <input
-          class="h-10 px-2 border rounded-lg"
+          className="h-10 px-2 border rounded-lg"
           type="text"
           placeholder="Enter URL and press Enter"
           value={url}
           onChange={(e) => setUrl(e.target.value)}
         />
         <button
-          class="h-10 bg-blue-500 text-white rounded-lg px-4 ml-2"
+          className="h-10 bg-blue-500 text-white rounded-lg px-4 ml-2"
           type="submit"
         >
           Fetch Data
@@ -45,7 +45,7 @@ export default function Home() {
       </form>
       {cardHTML && (
         <div
-          class="w-320 h-160 flex items-center bg-white rounded-lg shadow-md overflow-hidden justify-center"
+          className="w-320 h-160 flex items-center bg-white rounded-lg shadow-md overflow-hidden justify-center"
           dangerouslySetInnerHTML={{ __html: cardHTML }}
         ></div>
       )}

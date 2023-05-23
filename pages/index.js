@@ -1,50 +1,62 @@
-import { useState } from "react";
-//,
+import React, { useState, useEffect } from "react";
+import Head from "next/head";
+
+const isValidURL = (str) => {
+  const pattern = new RegExp(
+    "^(https?:\\/\\/)?" + // protocol
+      "((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}" + // domain name
+      "|((\\d{1,3}\\.){3}\\d{1,3}))" + // OR ip (v4) address
+      "(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*" + // port and path
+      "(\\?[;&a-z\\d%_.~+=-]*)?" + // query string
+      "(\\#[-a-z\\d_]*)?$",
+    "i"
+  );
+  return !!pattern.test(str);
+};
+
 export default function Home() {
-  const [url, setUrl] = useState("");
   const [cardHTML, setCardHTML] = useState("");
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      const response = await fetch("/api/fetch-url", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ url }),
-      });
-      const data = await response.text();
-      setCardHTML(data);
-    } catch (error) {
-      console.error(error);
-      setCardHTML("An error occurred");
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const url = urlParams.get("url");
+    if (!url) {
+      // If no URL is in the query parameter, do not attempt to fetch
+      return;
     }
-  };
+    if (!isValidURL(url)) {
+      setCardHTML("Invalid URL");
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/fetch-url?url=${url}`);
+        const data = await response.text();
+        setCardHTML(data);
+      } catch (error) {
+        console.error(error);
+        setCardHTML("An error occurred");
+      }
+    };
+    fetchData();
+  }, []);
 
   return (
-    <div class="flex flex-col items-center">
-      {" "}
-      <form class="mt-4 flex flex-col" onSubmit={handleSubmit}>
-        {" "}
-        <input
-          class="h-10 px-2 border rounded-lg"
-          type="text"
-          placeholder="输入url按回车键确认"
-          value={url}
-          onChange={(e) => setUrl(e.target.value)}
-        />{" "}
-        <button
-          class="h-10 bg-blue-500 text-white rounded-lg px-4 ml-2"
-          type="submit"
-        >
-          {" "}
-          Fetch Data{" "}
-        </button>{" "}
-      </form>{" "}
-      {cardHTML && (
-        <div
-          class="w-320 h-160 flex items-center bg-white rounded-lg shadow-md overflow-hidden justify-center"
-          dangerouslySetInnerHTML={{ __html: cardHTML }}
-        ></div>
-      )}{" "}
+    <div>
+      <Head>
+        <title>Fetch URL Card</title>
+        <meta name="description" content="Fetch URL Card" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+
+      <main>
+        {cardHTML ? (
+          <div dangerouslySetInnerHTML={{ __html: cardHTML }} />
+        ) : (
+          <p>No URL was provided in the query parameter.</p>
+        )}
+      </main>
     </div>
   );
 }

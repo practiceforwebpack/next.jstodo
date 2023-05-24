@@ -20,11 +20,8 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/fetch-url?url=${url}`);
-        const data = await response.text();
-        const parsedHTML = new DOMParser().parseFromString(data, "text/html");
-        const title = parsedHTML.querySelector("title");
-        setPageTitle(title?.textContent || "Fetch URL Card");
-        setCardHTML(data);
+        const data = await response.json();
+        setCardHTML(data.card);
       } catch (error) {
         console.error(error);
         setCardHTML("An error occurred");

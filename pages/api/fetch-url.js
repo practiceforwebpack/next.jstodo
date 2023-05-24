@@ -120,8 +120,6 @@ export default async function handler(req, res) {
     `;
     res.setHeader("Content-Type", "text/html; charset=utf-8");
     res.status(200).send(card);
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error", error: error.message });

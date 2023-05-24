@@ -33,22 +33,24 @@ export default async function handler(req, res) {
     const title = $("title").text();
     const firstImgSrc = $("img").eq(0).attr("src");
     const description = $('meta[name="description"]').attr("content");
+    const data = { title, firstImgSrc, description, html };
+
     const card = `
       <div class="wx-card">
         <div class="wx-card-title">
-          <h2>${title}</h2>
+          <h2>${data.title}</h2>
         </div>
         <div class="wx-card-content">
           <div class="wx-card-description">
-            <p>${description}</p>
+            <p>${data.description}</p>
           </div>
           <div class="wx-card-image">
-            <img src="${firstImgSrc}" alt="图片" />
+            <img src="${data.firstImgSrc}" alt="图片" />
           </div>
         </div>
       </div>
       <style>
-      .wx-card {
+        .wx-card {
           padding: 12px;
           display: flex;
           flex-direction: column;
@@ -116,10 +118,8 @@ export default async function handler(req, res) {
         }
       </style>
     `;
-    const data = { title, firstImgSrc, description, html }; // 将数据和卡片 HTML 代码分别保存在一个对象中
-    const result = { data, card }; // 将它们保存在一个对象中
-    res.setHeader("Content-Type", "application/json");
-    res.status(200).json(result); // 返回对象
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.status(200).send(card);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error", error: error.message });

@@ -1,21 +1,70 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
+import Skeleton from "react-loading-skeleton";
 
-const WXCard = ({ cardData }) => {
+export default function Home() {
+  const [cardData, setCardData] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const url = urlParams.get("url");
+    if (!url) {
+      setLoading(false);
+      return;
+    }
+    if (!isValidURL(url)) {
+      setCardHTML("Invalid URL");
+      setLoading(false);
+      return;
+    }
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch(`/api/fetch-url?url=${url}`);
+        const data = await response.json();
+        document.title = data.title;
+        setCardData(data);
+        setLoading(false);
+      } catch (error) {
+        console.error(error);
+        setCardData({ error: "An error occurred" });
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
-    <div className="wx-card">
-      <div className="wx-card-title">
-        <h2>{cardData.title}</h2>
-      </div>
-      <div className="wx-card-content">
-        <div className="wx-card-description">
-          <p>{cardData.description}</p>
-        </div>
-        <div className="wx-card-image">
-          <img src={cardData.firstImgSrc} alt="图片" />
-        </div>
-      </div>
-
+    <div>
+      {" "}
+      <Head>
+        {" "}
+        <title>{cardData.title}</title>{" "}
+        <meta name="description" content="Fetch URL Card" />{" "}
+        <link rel="icon" href="/favicon.ico" />{" "}
+      </Head>
+      <main>
+        {loading ? (
+          <Skeleton height={160} />
+        ) : cardData.title ? (
+          <div className="wx-card">
+            <div className="wx-card-title">
+              <h2>{cardData.title}</h2>
+            </div>
+            <div className="wx-card-content">
+              <div className="wx-card-description">
+                <p>{cardData.description}</p>
+              </div>
+              <div className="wx-card-image">
+                <img src={cardData.firstImgSrc} alt="图片" />
+              </div>
+            </div>
+          </div>
+        ) : (
+          <p>No URL was provided in the query parameter.</p>
+        )}
+      </main>
       <style jsx>{`
         .wx-card {
           padding: 12px;
@@ -86,54 +135,7 @@ const WXCard = ({ cardData }) => {
       `}</style>
     </div>
   );
-};
-
-const Home = () => {
-  const [cardData, setCardData] = useState({});
-
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const url = urlParams.get("url");
-    if (!url) {
-      return;
-    }
-    if (!isValidURL(url)) {
-      setCardData({ error: "Invalid URL" });
-      return;
-    }
-
-    const fetchData = async () => {
-      try {
-        const response = await fetch(`/api/fetch-url?url=${url}`);
-        const data = await response.json();
-        document.title = data.title;
-        setCardData(data);
-      } catch (error) {
-        console.error(error);
-        setCardData({ error: "An error occurred" });
-      }
-    };
-    fetchData();
-  }, []);
-
-  return (
-    <div>
-      <Head>
-        <title>{cardData.title}</title>
-        <meta name="description" content="Fetch URL Card" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-
-      <main>
-        {cardData.title ? (
-          <WXCard cardData={cardData} />
-        ) : (
-          <p>No URL was provided in the query parameter.</p>
-        )}
-      </main>
-    </div>
-  );
-};
+}
 
 const isValidURL = (url) => {
   try {
@@ -143,5 +145,3 @@ const isValidURL = (url) => {
     return false;
   }
 };
-
-export default Home;

@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>Fetch URL Card</title>
+        <title>{cardData.title}</title>
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

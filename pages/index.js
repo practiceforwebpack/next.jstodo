@@ -37,16 +37,15 @@ export default function Home() {
 
   return (
     <div>
-      {" "}
       <Head>
-        {" "}
-        <title>{cardData.title}</title>{" "}
-        <meta name="description" content="Fetch URL Card" />{" "}
-        <link rel="icon" href="/favicon.ico" />{" "}
+        <title>{cardData.title}</title>
+        <meta name="description" content="Fetch URL Card" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
+
       <main>
         {loading ? (
-          <Skeleton height={160} />
+          <Skeleton height={320} duration={2} backgroundColor="#3a3a3a" />
         ) : cardData.title ? (
           <div className="wx-card">
             <div className="wx-card-title">
@@ -62,9 +61,10 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <p>No URL was provided in the query parameter.</p>
+          <p>输入url</p>
         )}
       </main>
+
       <style jsx>{`
         .wx-card {
           padding: 12px;

@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 
 export default function Home() {
-  const [cardHTML, setCardHTML] = useState("");
+  const [cardData, setCardData] = useState({});
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -18,14 +18,12 @@ export default function Home() {
     const fetchData = async () => {
       try {
         const response = await fetch(`/api/fetch-url?url=${url}`);
-        const data = await response.text();
-        const parsedHTML = new DOMParser().parseFromString(data, "text/html");
-        const h2 = parsedHTML.querySelector("h2");
-        document.title = h2.textContent;
-        setCardHTML(data);
+        const data = await response.json();
+        document.title = data.title;
+        setCardData(data);
       } catch (error) {
         console.error(error);
-        setCardHTML("An error occurred");
+        setCardData({ error: "An error occurred" });
       }
     };
     fetchData();
@@ -40,15 +38,92 @@ export default function Home() {
       </Head>
 
       <main>
-        {cardHTML ? (
-          <div dangerouslySetInnerHTML={{ __html: cardHTML }} />
+        {cardData.title ? (
+          <div className="wx-card">
+            <div className="wx-card-title">
+              <h2>{cardData.title}</h2>
+            </div>
+            <div className="wx-card-content">
+              <div className="wx-card-description">
+                <p>{cardData.description}</p>
+              </div>
+              <div className="wx-card-image">
+                <img src={cardData.firstImgSrc} alt="图片" />
+              </div>
+            </div>
+          </div>
         ) : (
           <p>No URL was provided in the query parameter.</p>
         )}
       </main>
 
       <style jsx>{`
-        // your CSS styles
+        .wx-card {
+          padding: 12px;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          width: 300px;
+          height: 160px;
+          background-color: #fff;
+          border-radius: 10px;
+          box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+          overflow: hidden;
+        }
+
+        .wx-card-title {
+          color: rgba(0, 0, 0, 0.85);
+          display: flex;
+          align-items: center;
+          width: 100%;
+          height: 40px;
+          text-overflow: ellipsis;
+          word-break: break-all;
+          white-space: nowrap;
+        }
+
+        h2 {
+          color: rgba(0, 0, 0, 0.85);
+          font-size: 20px;
+          text-overflow: ellipsis;
+        }
+
+        p {
+          color: rgba(0, 0, 0, 0.65);
+          font-size: 12px;
+          text-overflow: ellipsis;
+        }
+
+        img {
+          padding: 20px;
+          width: 90px;
+          text-align: center;
+          margin-button: 20px;
+          float: left;
+        }
+
+        .wx-card-content {
+          font-size: 14;
+          display: flex;
+          flex-direction: row;
+          justify-content: space-between;
+          align-items: center;
+          width: 100%;
+          height: 120px;
+          padding: 12px;
+          overflow: hidden;
+        }
+
+        .wx-card-description {
+          margin: 10;
+          font-size: 12;
+          width: 60%;
+          word-break: break-all;
+          overflow: hidden;
+          display: -webkit-box;
+          -webkit-line-clamp: 7;
+          -webkit-box-orient: vertical;
+        }
       `}</style>
     </div>
   );

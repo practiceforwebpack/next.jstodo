@@ -45,7 +45,7 @@ export default function Home() {
 
       <main>
         {loading ? (
-          <Skeleton height={320} duration={2} backgroundColor="#3a3a3a" />
+          <div className="wx-card-skeleton"></div>
         ) : cardData.title ? (
           <div className="wx-card">
             <div className="wx-card-title">
@@ -61,7 +61,7 @@ export default function Home() {
             </div>
           </div>
         ) : (
-          <p>输入url</p>
+          <p>No URL was provided in the query parameter.</p>
         )}
       </main>
 
@@ -131,6 +131,13 @@ export default function Home() {
           display: -webkit-box;
           -webkit-line-clamp: 7;
           -webkit-box-orient: vertical;
+        }
+
+        .wx-card-skeleton {
+          width: 300px;
+          height: 160px;
+          background-color: #cccccc;
+          border-radius: 10px;
         }
       `}</style>
     </div>

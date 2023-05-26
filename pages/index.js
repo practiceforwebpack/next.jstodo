@@ -73,14 +73,15 @@ export default function Home() {
           align-items: center;
           width: 300px;
           height: 160px;
-          background-color: #fff;
+          background-color: #f2f2f2;
           border-radius: 10px;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
           overflow: hidden;
         }
 
         .wx-card-title {
-          color: rgba(0, 0, 0, 0.85);
+          color: rgba(0, 0, 0, 0.95);
+          background-color: #e6e6e6;
           display: flex;
           align-items: center;
           width: 100%;
@@ -88,16 +89,17 @@ export default function Home() {
           text-overflow: ellipsis;
           word-break: break-all;
           white-space: nowrap;
+          padding: 0 10px;
         }
 
         h2 {
-          color: rgba(0, 0, 0, 0.85);
+          color: rgba(0, 0, 0, 0.95);
           font-size: 20px;
           text-overflow: ellipsis;
         }
 
         p {
-          color: rgba(0, 0, 0, 0.65);
+          color: rgba(0, 0, 0, 0.8);
           font-size: 12px;
           text-overflow: ellipsis;
         }
@@ -106,7 +108,7 @@ export default function Home() {
           padding: 20px;
           width: 90px;
           text-align: center;
-          margin-button: 20px;
+          margin-bottom: 20px;
           float: left;
         }
 
@@ -123,7 +125,7 @@ export default function Home() {
         }
 
         .wx-card-description {
-          margin: 10;
+          margin: 0 10px 0 0;
           font-size: 12;
           width: 60%;
           word-break: break-all;
@@ -136,7 +138,7 @@ export default function Home() {
         .wx-card-skeleton {
           width: 300px;
           height: 160px;
-          background-color: #cccccc;
+          background-color: #f7f7f7;
           border-radius: 10px;
         }
       `}</style>

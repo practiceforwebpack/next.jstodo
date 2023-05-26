@@ -20,7 +20,7 @@ export default function Home() {
     }
 
     const fetchData = async () => {
-      setLoading(true); // 加载开始时设置为true
+      setLoading(true);
       try {
         const response = await fetch(`/api/fetch-url?url=${url}`);
         const data = await response.json();
@@ -30,7 +30,7 @@ export default function Home() {
         console.error(error);
         setCardData({ error: "An error occurred" });
       }
-      setLoading(false); // 加载结束时设置为false
+      setLoading(false);
     };
     fetchData();
   }, []);
@@ -46,10 +46,9 @@ export default function Home() {
       <main>
         <div className="wx-card">
           <div className="wx-card-title">
-            {loading ? ( // 为标题添加骨架屏
+            {loading ? (
               <>
                 <Skeleton width={200} height={24} />
-                <div className="wx-card-loading-bar" />
               </>
             ) : (
               <h2>{cardData.title}</h2>
@@ -57,75 +56,74 @@ export default function Home() {
           </div>
           <div className="wx-card-content">
             <div className="wx-card-description">
-              {loading ? ( // 为描述添加骨架屏
+              {loading ? (
                 <>
                   <Skeleton count={7} />
-                  <div className="wx-card-loading-bar" />
                 </>
               ) : (
                 <p>{cardData.description}</p>
               )}
             </div>
             <div className="wx-card-image">
-              {loading ? ( // 为图片添加骨架屏
+              {loading ? (
                 <Skeleton width={90} height={90} />
               ) : (
                 <img src={cardData.firstImgSrc} alt="图片" />
               )}
             </div>
           </div>
+          {loading && (
+            <div className="wx-card-overlay">
+              <div className="wx-card-loader" />
+            </div>
+          )}
         </div>
       </main>
 
       <style jsx>{`
         .wx-card {
+          position: relative;
           padding: 12px;
           display: flex;
           flex-direction: column;
           align-items: center;
           width: 300px;
-          height: 160px;
-          background-color: ${loading
-            ? "#F2F2F2"
-            : "#fff"}; // 根据loading状态设置背景色
+          height: 170px;
+          background-color: ${loading ? "#F2F2F2" : "#fff"};
           border-radius: 10px;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
           overflow: hidden;
         }
 
         .wx-card-title {
-          color: ${loading
-            ? "#D8D8D8"
-            : "rgba(0, 0, 0, 0.85)"}; // 根据loading状态设置颜色
+          color: ${loading ? "#D8D8D8" : "rgba(0, 0, 0, 0.85)"};
           display: flex;
           align-items: center;
+          justify-content: flex-start;
           width: 100%;
           height: 40px;
           text-overflow: ellipsis;
           word-break: break-all;
-          white-space: nowrap;
-          position: relative;
+          text-align: left;
         }
 
-        .wx-card-loading-bar {
-          position: absolute;
-          width: 100%;
-          height: 5px;
-          background-color: #d8d8d8;
-          bottom: 0;
-          left: 0;
-          animation: loadingbar 2s infinite ease-in-out;
+        .wx-card-loader {
+          content: "";
+          display: block;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          border: 2px solid #ccc;
+          border-top-color: #333;
+          animation: spin 0.8s ease-in-out infinite;
         }
 
-        @keyframes loadingbar {
+        @keyframes spin {
           0% {
-            width: 0;
-          }
-          50% {
-            width: 50%;
+            transform: rotate(0deg);
           }
           100% {
-            width: 0;
+            transform: rotate(360deg);
           }
         }
 
@@ -136,9 +134,7 @@ export default function Home() {
         }
 
         p {
-          color: ${loading
-            ? "#D8D8D8"
-            : "rgba(0, 0, 0, 0.65)"}; // 根据loading状态设置颜色
+          color: ${loading ? "#D8D8D8" : "rgba(0, 0, 0, 0.65)"};
           font-size: 12px;
           text-overflow: ellipsis;
         }
@@ -169,6 +165,19 @@ export default function Home() {
           display: -webkit-box;
           -webkit-line-clamp: 7;
           -webkit-box-orient: vertical;
+        }
+
+        .wx-card-overlay {
+          display: ${loading ? "flex" : "none"};
+          position: absolute;
+          align-items: center;
+          justify-content: center;
+          top: 0;
+          left: 0;
+          bottom: 0;
+          right: 0;
+          background: rgba(255, 255, 255, 0.7);
+          z-index: 1;
         }
       `}</style>
     </div>

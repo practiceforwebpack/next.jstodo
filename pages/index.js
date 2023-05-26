@@ -6,6 +6,11 @@ export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const cardPlaceholderColor = "#f2f2f2";
+  const cardTitleColor = "rgba(0, 0, 0, 0.95)";
+  const cardDescriptionColor = "rgba(0, 0, 0, 0.8)";
+  const cardImagePaddingColor = "#f7f7f7";
+
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
@@ -44,25 +49,59 @@ export default function Home() {
       </Head>
 
       <main>
-        {loading ? (
-          <div className="wx-card-skeleton"></div>
-        ) : cardData.title ? (
-          <div className="wx-card">
-            <div className="wx-card-title">
-              <h2>{cardData.title}</h2>
+        <div className="wx-card">
+          <div className="wx-card-title">
+            {loading ? (
+              <Skeleton
+                className="wx-card-skeleton"
+                count={1}
+                height={40}
+                width={300}
+                style={{ backgroundColor: cardPlaceholderColor }}
+              />
+            ) : cardData.title ? (
+              <h2 style={{ color: cardTitleColor }}>{cardData.title}</h2>
+            ) : null}
+          </div>
+          <div className="wx-card-content">
+            <div className="wx-card-description">
+              {loading ? (
+                <Skeleton
+                  className="wx-card-skeleton"
+                  count={1}
+                  height={120}
+                  width={300}
+                  style={{ backgroundColor: cardPlaceholderColor }}
+                />
+              ) : cardData.description ? (
+                <p style={{ color: cardDescriptionColor }}>
+                  {cardData.description}
+                </p>
+              ) : null}
             </div>
-            <div className="wx-card-content">
-              <div className="wx-card-description">
-                <p>{cardData.description}</p>
-              </div>
-              <div className="wx-card-image">
-                <img src={cardData.firstImgSrc} alt="图片" />
-              </div>
+            <div className="wx-card-image">
+              {loading ? (
+                <Skeleton
+                  className="wx-card-skeleton"
+                  count={1}
+                  height={80}
+                  width={80}
+                  style={{ backgroundColor: cardPlaceholderColor }}
+                />
+              ) : cardData.firstImgSrc ? (
+                <img
+                  src={cardData.firstImgSrc}
+                  alt="图片"
+                  style={{
+                    padding: "20px",
+                    width: "90px",
+                    backgroundColor: cardImagePaddingColor,
+                  }}
+                />
+              ) : null}
             </div>
           </div>
-        ) : (
-          <p>No URL was provided in the query parameter.</p>
-        )}
+        </div>
       </main>
 
       <style jsx>{`
@@ -80,7 +119,6 @@ export default function Home() {
         }
 
         .wx-card-title {
-          color: rgba(0, 0, 0, 0.95);
           background-color: #e6e6e6;
           display: flex;
           align-items: center;
@@ -93,22 +131,16 @@ export default function Home() {
         }
 
         h2 {
-          color: rgba(0, 0, 0, 0.95);
           font-size: 20px;
           text-overflow: ellipsis;
         }
 
         p {
-          color: rgba(0, 0, 0, 0.8);
           font-size: 12px;
           text-overflow: ellipsis;
         }
 
         img {
-          padding: 20px;
-          width: 90px;
-          text-align: center;
-          margin-bottom: 20px;
           float: left;
         }
 
@@ -136,9 +168,6 @@ export default function Home() {
         }
 
         .wx-card-skeleton {
-          width: 300px;
-          height: 160px;
-          background-color: #f7f7f7;
           border-radius: 10px;
         }
       `}</style>

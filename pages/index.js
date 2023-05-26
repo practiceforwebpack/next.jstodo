@@ -8,8 +8,8 @@ export default function Home() {
 
   const cardPlaceholderColor = "#f2f2f2";
   const cardTitleColor = "rgba(0, 0, 0, 0.95)";
-  const cardDescriptionColor = "rgba(0, 0, 0, 0.8)";
-  const cardImagePaddingColor = "#f7f7f7";
+  const cardDescriptionColor = "rgba(0, 0, 0, 0.95)";
+  const cardImagePaddingColor = "#e6e6e6";
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);

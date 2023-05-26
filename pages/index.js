@@ -6,10 +6,10 @@ export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
 
-  const cardPlaceholderColor = "#f2f2f2";
+  const cardPlaceholderColor = "#d3d3d3";
   const cardTitleColor = "rgba(0, 0, 0, 0.95)";
-  const cardDescriptionColor = "rgba(0, 0, 0, 0.95)";
-  const cardImagePaddingColor = "#e6e6e6";
+  const cardDescriptionColor = "#ffffff";
+  const cardImagePaddingColor = "#ffffff";
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -112,7 +112,7 @@ export default function Home() {
           align-items: center;
           width: 300px;
           height: 160px;
-          background-color: #f2f2f2;
+          background-color: ${cardPlaceholderColor};
           border-radius: 10px;
           box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
           overflow: hidden;
@@ -122,6 +122,7 @@ export default function Home() {
           background-color: #e6e6e6;
           display: flex;
           align-items: center;
+          justify-content: center;
           width: 100%;
           height: 40px;
           text-overflow: ellipsis;

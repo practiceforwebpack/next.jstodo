@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 
-export default function Home() {
+const Home = () => {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
 
@@ -13,9 +13,8 @@ export default function Home() {
       setLoading(false);
       return;
     }
-    if (!isValidURL(url)) {
-      setCardHTML("Invalid URL");
-      setLoading(false);
+    if (!isValidUrl(url)) {
+      handleError("Invalid URL");
       return;
     }
 
@@ -28,17 +27,22 @@ export default function Home() {
         setCardData(data);
       } catch (error) {
         console.error(error);
-        setCardData({ error: "An error occurred" });
+        handleError("An error occurred");
       }
       setLoading(false);
     };
     fetchData();
   }, []);
 
+  const handleError = (errorMessage) => {
+    setCardData({ error: errorMessage });
+    setLoading(false);
+  };
+
   return (
     <div>
       <Head>
-        <title>{cardData.title}</title>
+        <title>{cardData?.title || "Fetch URL Card"}</title>
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -47,28 +51,24 @@ export default function Home() {
         <div className="wx-card">
           <div className="wx-card-title">
             {loading ? (
-              <>
-                <Skeleton width={200} height={24} />
-              </>
+              <Skeleton width={200} height={24} />
             ) : (
-              <h2>{cardData.title}</h2>
+              <h2>{cardData?.title}</h2>
             )}
           </div>
           <div className="wx-card-content">
             <div className="wx-card-description">
               {loading ? (
-                <>
-                  <Skeleton count={7} />
-                </>
+                <Skeleton count={7} />
               ) : (
-                <p>{cardData.description}</p>
+                <p>{cardData?.description}</p>
               )}
             </div>
             <div className="wx-card-image">
               {loading ? (
                 <Skeleton width={90} height={90} />
               ) : (
-                <img src={cardData.firstImgSrc} alt="图片" />
+                <img src={cardData?.firstImgSrc} alt="图片" />
               )}
             </div>
           </div>
@@ -182,13 +182,15 @@ export default function Home() {
       `}</style>
     </div>
   );
-}
+};
 
-const isValidURL = (url) => {
+const isValidUrl = (url) => {
   try {
     new URL(url);
     return true;
-  } catch (error) {
+  } catch {
     return false;
   }
 };
+
+export default Home;

@@ -11,6 +11,7 @@ const Home = () => {
     const url = urlParams.get("url");
     if (!url) {
       setLoading(false);
+      setCardData({});
       return;
     }
     if (!isValidUrl(url)) {
@@ -48,36 +49,38 @@ const Home = () => {
       </Head>
 
       <main>
-        <div className="wx-card">
-          <div className="wx-card-title">
-            {loading ? (
-              <Skeleton width={200} height={24} />
-            ) : (
-              <h2>{cardData?.title}</h2>
+        {Object.keys(cardData).length > 0 && ( // 新增：只有 data 不为空对象时才显示卡片
+          <div className="wx-card">
+            <div className="wx-card-title">
+              {loading ? (
+                <Skeleton width={200} height={24} />
+              ) : (
+                <h2>{cardData?.title}</h2>
+              )}
+            </div>
+            <div className="wx-card-content">
+              <div className="wx-card-description">
+                {loading ? (
+                  <Skeleton count={7} />
+                ) : (
+                  <p>{cardData?.description}</p>
+                )}
+              </div>
+              <div className="wx-card-image">
+                {loading ? (
+                  <Skeleton width={90} height={90} />
+                ) : (
+                  <img src={cardData?.firstImgSrc} alt="图片" />
+                )}
+              </div>
+            </div>
+            {loading && (
+              <div className="wx-card-overlay">
+                <div className="wx-card-loader" />
+              </div>
             )}
           </div>
-          <div className="wx-card-content">
-            <div className="wx-card-description">
-              {loading ? (
-                <Skeleton count={7} />
-              ) : (
-                <p>{cardData?.description}</p>
-              )}
-            </div>
-            <div className="wx-card-image">
-              {loading ? (
-                <Skeleton width={90} height={90} />
-              ) : (
-                <img src={cardData?.firstImgSrc} alt="图片" />
-              )}
-            </div>
-          </div>
-          {loading && (
-            <div className="wx-card-overlay">
-              <div className="wx-card-loader" />
-            </div>
-          )}
-        </div>
+        )}
       </main>
 
       <style jsx>{`

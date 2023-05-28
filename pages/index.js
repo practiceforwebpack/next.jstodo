@@ -42,9 +42,68 @@ export default function Home() {
 
   if (error) {
     return (
-      <div>
-        <p>404 Not Found</p>
-        <img src="c.png" alt="Error" />
+      <div className="container">
+        <Head>
+          <title>404 Not Found</title>
+          <meta name="description" content="404 Not Found" />
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+
+        <div className="content">
+          <h1>Oops! Page Not Found</h1>
+          <div className="img-wrapper">
+            <img
+              src="404.png"
+              alt="404 image"
+              layout="fill"
+              objectFit="contain"
+            />
+          </div>
+        </div>
+
+        <style jsx>{`
+          .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+          }
+
+          .content {
+            text-align: center;
+          }
+
+          h1 {
+            font-size: 3rem;
+          }
+
+          p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+          }
+
+          .img-wrapper {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            margin: 0 auto;
+          }
+
+          @media screen and (max-width: 600px) {
+            h1 {
+              font-size: 2rem;
+            }
+
+            p {
+              font-size: 1rem;
+            }
+
+            .img-wrapper {
+              width: 200px;
+              height: 200px;
+            }
+          }
+        `}</style>
       </div>
     ); // render error message
   }
@@ -54,7 +113,7 @@ export default function Home() {
       <Head>
         <title>{cardData.title}</title>
         <meta name="description" content="Fetch URL Card" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="znz.png?t=1629696581" />
       </Head>
 
       <main>

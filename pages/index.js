@@ -113,7 +113,7 @@ export default function Home() {
       <Head>
         <title>{cardData.title}</title>
         <meta name="description" content="Fetch URL Card" />
-        <link rel="icon" href="znz.png?t=1629696581" />
+        <link rel="icon" href="znz.png" />
       </Head>
 
       <main>

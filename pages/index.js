@@ -2,25 +2,29 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 
-const Home = () => {
+export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
     if (!url) {
       setLoading(false);
-      setCardData({});
+      setError(true);
       return;
     }
-    if (!isValidUrl(url)) {
-      handleError("Invalid URL");
+    if (!isValidURL(url)) {
+      setCardHTML("Invalid URL");
+      setLoading(false);
+      setError(true);
       return;
     }
 
     const fetchData = async () => {
       setLoading(true);
+      setError(false); // reset error status
       try {
         const response = await fetch(`/api/fetch-url?url=${url}`);
         const data = await response.json();
@@ -28,59 +32,66 @@ const Home = () => {
         setCardData(data);
       } catch (error) {
         console.error(error);
-        handleError("An error occurred");
+        setCardData({ error: "An error occurred" });
+        setError(true);
       }
       setLoading(false);
     };
     fetchData();
   }, []);
 
-  const handleError = (errorMessage) => {
-    setCardData({ error: errorMessage });
-    setLoading(false);
-  };
+  if (error) {
+    return (
+      <div>
+        <p>404 Not Found</p>
+        <img src="c.png" alt="Error" />
+      </div>
+    ); // render error message
+  }
 
   return (
     <div>
       <Head>
-        <title>{cardData?.title || "Fetch URL Card"}</title>
+        <title>{cardData.title}</title>
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
       <main>
-        {Object.keys(cardData).length > 0 && ( // 新增：只有 data 不为空对象时才显示卡片
-          <div className="wx-card">
-            <div className="wx-card-title">
-              {loading ? (
+        <div className="wx-card">
+          <div className="wx-card-title">
+            {loading ? (
+              <>
                 <Skeleton width={200} height={24} />
-              ) : (
-                <h2>{cardData?.title}</h2>
-              )}
-            </div>
-            <div className="wx-card-content">
-              <div className="wx-card-description">
-                {loading ? (
-                  <Skeleton count={7} />
-                ) : (
-                  <p>{cardData?.description}</p>
-                )}
-              </div>
-              <div className="wx-card-image">
-                {loading ? (
-                  <Skeleton width={90} height={90} />
-                ) : (
-                  <img src={cardData?.firstImgSrc} alt="图片" />
-                )}
-              </div>
-            </div>
-            {loading && (
-              <div className="wx-card-overlay">
-                <div className="wx-card-loader" />
-              </div>
+              </>
+            ) : (
+              <h2>{cardData.title}</h2>
             )}
           </div>
-        )}
+          <div className="wx-card-content">
+            <div className="wx-card-description">
+              {loading ? (
+                <>
+                  <Skeleton count={7} />
+                </>
+              ) : (
+                <p>{cardData.description}</p>
+              )}
+            </div>
+            <div className="wx-card-image">
+              {loading ? (
+                <Skeleton width={90} height={90} />
+              ) : (
+                <img src={cardData.firstImgSrc} alt="图片" />
+              )}
+            </div>
+          </div>
+          {loading && (
+            <div className="wx-card-overlay">
+              <div className="wx-card-loader" />
+            </div>
+          )}
+        </div>
       </main>
 
       <style jsx>{`
@@ -185,15 +196,13 @@ const Home = () => {
       `}</style>
     </div>
   );
-};
+}
 
-const isValidUrl = (url) => {
+const isValidURL = (url) => {
   try {
     new URL(url);
     return true;
-  } catch {
+  } catch (error) {
     return false;
   }
 };
-
-export default Home;

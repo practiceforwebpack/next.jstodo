@@ -162,10 +162,17 @@ export default function Home() {
           align-items: center;
           width: 300px;
           height: 170px;
+          background-image: linear-gradient(
+            to bottom,
+            rgba(255, 255, 255, 0),
+            rgba(255, 255, 255, 0.5),
+            rgba(255, 255, 255, 1)
+          );
           background-color: ${loading ? "#F2F2F2" : "#fff"};
           border-radius: 10px;
           border-radius: 5px;
-          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3),
+            0 10px 30px rgba(0, 0, 0, 0.2);
           overflow: hidden;
         }
 

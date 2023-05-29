@@ -26,7 +26,9 @@ export default function Home() {
       setLoading(true);
       setError(false); // reset error status
       try {
-        const response = await fetch(`/api/fetch-url?url=${url}`);
+        const response = await fetch(
+          `/api/fetch-url?url=${url}&redirect=false`
+        );
         const data = await response.json();
         document.title = data.title;
         setCardData(data);
@@ -39,6 +41,11 @@ export default function Home() {
     };
     fetchData();
   }, []);
+  console.log(cardData.url);
+  const handleClick = (e) => {
+    e.preventDefault();
+    window.location.href = cardData.url;
+  };
 
   if (error) {
     return (
@@ -117,44 +124,47 @@ export default function Home() {
       </Head>
 
       <main>
-        <div className="wx-card">
-          <div className="wx-card-title">
-            {loading ? (
-              <>
-                <Skeleton width={200} height={24} />
-              </>
-            ) : (
-              <h2>{cardData.title}</h2>
-            )}
-          </div>
-          <div className="wx-card-content">
-            <div className="wx-card-description">
+        <a href={cardData.url} onClick={handleClick}>
+          <div className="wx-card">
+            <div className="wx-card-title">
               {loading ? (
                 <>
-                  <Skeleton count={7} />
+                  <Skeleton width={200} height={24} />
                 </>
               ) : (
-                <p>{cardData.description}</p>
+                <h2>{cardData.title}</h2>
               )}
             </div>
-            <div className="wx-card-image">
-              {loading ? (
-                <Skeleton width={90} height={90} />
-              ) : (
-                <img src={cardData.firstImgSrc} alt="图片" />
-              )}
+            <div className="wx-card-content">
+              <div className="wx-card-description">
+                {loading ? (
+                  <>
+                    <Skeleton count={7} />
+                  </>
+                ) : (
+                  <p>{cardData.description}</p>
+                )}
+              </div>
+              <div className="wx-card-image">
+                {loading ? (
+                  <Skeleton width={90} height={90} />
+                ) : (
+                  <img src={cardData.firstImgSrc} alt="图片" />
+                )}
+              </div>
             </div>
+            {loading && (
+              <div className="wx-card-overlay">
+                <div className="wx-card-loader" />
+              </div>
+            )}
           </div>
-          {loading && (
-            <div className="wx-card-overlay">
-              <div className="wx-card-loader" />
-            </div>
-          )}
-        </div>
+        </a>
       </main>
 
       <style jsx>{`
         .wx-card {
+          transition: transform 0.3s ease-in-out;
           margin: 50px auto;
           position: relative;
           padding: 12px;
@@ -172,12 +182,15 @@ export default function Home() {
           background-color: ${loading ? "#F2F2F2" : "#fff"};
           border-radius: 10px;
           border-radius: 5px;
-          box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-            rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-            rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+          box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
+            rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
           overflow: hidden;
         }
-
+        .wx-card:hover {
+          cursor: pointer;
+          transform: scale(1.03);
+          transition: transform 0.3s ease-in-out;
+        }
         .wx-card-title {
           color: ${loading ? "#D8D8D8" : "rgba(0, 0, 0, 0.85)"};
           display: flex;

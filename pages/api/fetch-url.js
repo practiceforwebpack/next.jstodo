@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     const title = $("title").text();
     const firstImgSrc = $("img").eq(0).attr("src");
     const description = $('meta[name="description"]').attr("content");
-    const data = { title, firstImgSrc, description };
+    const data = { title, firstImgSrc, description, url };
     res.status(200).json(data);
   } catch (error) {
     console.error(error);

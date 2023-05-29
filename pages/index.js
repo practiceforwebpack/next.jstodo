@@ -164,7 +164,8 @@ export default function Home() {
           height: 170px;
           background-color: ${loading ? "#F2F2F2" : "#fff"};
           border-radius: 10px;
-          box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+          border-radius: 5px;
+          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
           overflow: hidden;
         }
 

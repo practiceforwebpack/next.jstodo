@@ -163,6 +163,9 @@ export default function Home() {
       </main>
 
       <style jsx>{`
+        a {
+          text-decoration: none;
+        }
         .wx-card {
           transition: transform 0.3s ease-in-out;
           margin: 50px auto;
@@ -182,8 +185,8 @@ export default function Home() {
           background-color: ${loading ? "#F2F2F2" : "#fff"};
           border-radius: 10px;
           border-radius: 5px;
-          box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px,
-            rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+          box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
+            rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
           overflow: hidden;
         }
         .wx-card:hover {

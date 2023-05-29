@@ -155,6 +155,7 @@ export default function Home() {
 
       <style jsx>{`
         .wx-card {
+          margin: 50px auto;
           position: relative;
           padding: 12px;
           display: flex;
@@ -171,8 +172,7 @@ export default function Home() {
           background-color: ${loading ? "#F2F2F2" : "#fff"};
           border-radius: 10px;
           border-radius: 5px;
-          box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3),
-            0 10px 30px rgba(0, 0, 0, 0.2);
+          box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
           overflow: hidden;
         }
 

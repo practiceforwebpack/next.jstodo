@@ -177,7 +177,8 @@ export default function Home() {
           display: flex;
           flex-direction: column;
           align-items: center;
-          width: 300px;
+          width: 80vw;
+          max-width: 480px;
           height: 144px;
           background-color: #f7f7f7;
           box-shadow: rgba(0, 0, 0, 0.01) 0px 1px 3px 0px,

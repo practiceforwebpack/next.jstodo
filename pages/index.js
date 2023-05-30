@@ -180,11 +180,11 @@ export default function Home() {
           width: 300px;
           height: 144px;
           background-color: #f7f7f7;
-          box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
-            rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
+          box-shadow: rgba(0, 0, 0, 0.01) 0px 1px 3px 0px,
+            rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
           overflow: hidden;
-          border-radius: 20px; /*圆角*/
-          border: 1px solid #e8e8e8; /* 将边框调浅 */
+          border-radius: 20px;
+          border: 1px solid #ffffff;
         }
         .wx-card:hover {
           cursor: pointer;

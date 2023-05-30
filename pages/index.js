@@ -184,7 +184,7 @@ export default function Home() {
             rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
           overflow: hidden;
           border-radius: 20px;
-          border: 1px solid #ffffff;
+          border: 1px solid #f7f7f7;
         }
         .wx-card:hover {
           cursor: pointer;

@@ -166,6 +166,9 @@ export default function Home() {
         a {
           text-decoration: none;
         }
+        .wx-card a {
+          pointer-events: auto;
+        }
         .wx-card {
           transition: transform 0.3s ease-in-out;
           margin: 50px auto;
@@ -176,17 +179,11 @@ export default function Home() {
           align-items: center;
           width: 300px;
           height: 170px;
-          background-image: linear-gradient(
-            to bottom,
-            rgba(255, 255, 255, 0),
-            rgba(255, 255, 255, 0.5),
-            rgba(255, 255, 255, 1)
-          );
-          background-color: ${loading ? "#F2F2F2" : "#fff"};
+
+          background-color: #f7f7f7;
           border-radius: 10px;
-          border-radius: 5px;
-          box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px,
-            rgba(60, 64, 67, 0.15) 0px 2px 6px 2px;
+          box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
+            rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
           overflow: hidden;
         }
         .wx-card:hover {

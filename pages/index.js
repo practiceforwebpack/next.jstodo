@@ -179,12 +179,12 @@ export default function Home() {
           align-items: center;
           width: 300px;
           height: 170px;
-
           background-color: #f7f7f7;
-          border-radius: 10px;
           box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
             rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
           overflow: hidden;
+          border-radius: 20px; /* 新增圆角 */
+          border: 1px solid #e8e8e8; /* 将边框调浅 */
         }
         .wx-card:hover {
           cursor: pointer;
@@ -197,12 +197,13 @@ export default function Home() {
           align-items: center;
           justify-content: flex-start;
           width: 100%;
-          height: 40px;
+          height: 26px; /* 减小高度 */
+          margin: 10px 5px 5px; /* 减小标题与下面部分的间距 */
           text-overflow: ellipsis;
           word-break: break-all;
           text-align: left;
+          padding: 0 5px; /* 减小左右 padding */
         }
-
         .wx-card-loader {
           content: "";
           display: block;
@@ -213,7 +214,6 @@ export default function Home() {
           border-top-color: #333;
           animation: spin 0.8s ease-in-out infinite;
         }
-
         @keyframes spin {
           0% {
             transform: rotate(0deg);
@@ -222,38 +222,34 @@ export default function Home() {
             transform: rotate(360deg);
           }
         }
-
         h2 {
           color: rgba(0, 0, 0, 0.85);
-          font-size: 20px;
+          font-size: 18px;
           text-overflow: ellipsis;
+          margin: 10px 5px;
         }
-
         p {
           color: ${loading ? "#D8D8D8" : "rgba(0, 0, 0, 0.65)"};
           font-size: 12px;
           text-overflow: ellipsis;
+          margin: 5px 2px;
         }
-
         img {
-          padding: 20px;
+          padding: 8px;
           width: 90px;
         }
-
         .wx-card-content {
-          font-size: 14;
           display: flex;
           flex-direction: row;
           justify-content: space-between;
           align-items: center;
           width: 100%;
-          height: 120px;
-          padding: 12px;
+          height: 110px;
+          padding: 5px;
           overflow: hidden;
         }
-
         .wx-card-description {
-          margin: 10;
+          margin: 5;
           font-size: 12;
           width: 60%;
           word-break: break-all;
@@ -262,7 +258,6 @@ export default function Home() {
           -webkit-line-clamp: 7;
           -webkit-box-orient: vertical;
         }
-
         .wx-card-overlay {
           display: ${loading ? "flex" : "none"};
           position: absolute;

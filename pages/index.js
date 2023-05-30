@@ -171,19 +171,19 @@ export default function Home() {
         }
         .wx-card {
           transition: transform 0.3s ease-in-out;
-          margin: 50px auto;
+          margin: 25px auto;
           position: relative;
-          padding: 12px;
+          padding: 16px;
           display: flex;
           flex-direction: column;
           align-items: center;
           width: 300px;
-          height: 170px;
+          height: 144px;
           background-color: #f7f7f7;
           box-shadow: rgba(0, 0, 0, 0.02) 0px 1px 3px 0px,
             rgba(27, 31, 35, 0.15) 0px 0px 0px 1px;
           overflow: hidden;
-          border-radius: 20px; /* 新增圆角 */
+          border-radius: 20px; /*圆角*/
           border: 1px solid #e8e8e8; /* 将边框调浅 */
         }
         .wx-card:hover {
@@ -197,7 +197,7 @@ export default function Home() {
           align-items: center;
           justify-content: flex-start;
           width: 100%;
-          height: 26px; /* 减小高度 */
+          height: 16px; /* 减小高度 */
           margin: 10px 5px 5px; /* 减小标题与下面部分的间距 */
           text-overflow: ellipsis;
           word-break: break-all;
@@ -249,13 +249,12 @@ export default function Home() {
           overflow: hidden;
         }
         .wx-card-description {
-          margin: 5;
-          font-size: 12;
-          width: 60%;
+          margin: 2px;
+          width: 80%;
           word-break: break-all;
           overflow: hidden;
           display: -webkit-box;
-          -webkit-line-clamp: 7;
+          -webkit-line-clamp: 6;
           -webkit-box-orient: vertical;
         }
         .wx-card-overlay {

@@ -41,12 +41,10 @@ export default function Home() {
     };
     fetchData();
   }, []);
-  console.log(cardData.url);
   const handleClick = (e) => {
     e.preventDefault();
     window.location.href = cardData.url;
   };
-
   if (error) {
     return (
       <div className="container">

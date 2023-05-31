@@ -35,6 +35,7 @@ export default async function handler(req, res) {
     const description = $('meta[name="description"]').attr("content");
     const data = { title, firstImgSrc, description, url };
     res.status(200).json(data);
+    console.log(data);
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Error", error: error.message });

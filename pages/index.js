@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
+import styles404 from "./404.module.css";
 
 export default function Home() {
   const [cardData, setCardData] = useState({});
@@ -47,16 +48,16 @@ export default function Home() {
   };
   if (error) {
     return (
-      <div className="container">
+      <div className={styles404.container}>
         <Head>
           <title>404 Not Found</title>
           <meta name="description" content="404 Not Found" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <div className="content">
-          <h1>Oops! Page Not Found</h1>
-          <div className="img-wrapper">
+        <div className={styles404.content}>
+          <h1 className={styles404.h1}>Oops! Page Not Found</h1>
+          <div className={styles404.imgwrapper}>
             <img
               src="404.png"
               alt="404 image"
@@ -65,50 +66,6 @@ export default function Home() {
             />
           </div>
         </div>
-
-        <style jsx>{`
-          .container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-          }
-
-          .content {
-            text-align: center;
-          }
-
-          h1 {
-            font-size: 3rem;
-          }
-
-          p {
-            font-size: 1.5rem;
-            margin-bottom: 2rem;
-          }
-
-          .img-wrapper {
-            position: relative;
-            width: 300px;
-            height: 300px;
-            margin: 0 auto;
-          }
-
-          @media screen and (max-width: 600px) {
-            h1 {
-              font-size: 2rem;
-            }
-
-            p {
-              font-size: 1rem;
-            }
-
-            .img-wrapper {
-              width: 200px;
-              height: 200px;
-            }
-          }
-        `}</style>
       </div>
     ); // render error message
   }

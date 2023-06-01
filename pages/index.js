@@ -2,12 +2,10 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
-
 export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
@@ -22,7 +20,6 @@ export default function Home() {
       setError(true);
       return;
     }
-
     const fetchData = async () => {
       setLoading(true);
       setError(false); // reset error status
@@ -54,7 +51,6 @@ export default function Home() {
           <meta name="description" content="404 Not Found" />
           <link rel="icon" href="/favicon.ico" />
         </Head>
-
         <div className={styles404.content}>
           <h1 className={styles404.h1}>Oops! Page Not Found</h1>
           <div className={styles404.imgwrapper}>
@@ -69,7 +65,6 @@ export default function Home() {
       </div>
     ); // render error message
   }
-
   return (
     <div>
       <Head>
@@ -77,7 +72,6 @@ export default function Home() {
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="znz.png" />
       </Head>
-
       <main>
         <a href={cardData.url} onClick={handleClick}>
           <div className="wx-card">
@@ -116,7 +110,6 @@ export default function Home() {
           </div>
         </a>
       </main>
-
       <style jsx>{`
         a {
           text-decoration: none;
@@ -229,7 +222,6 @@ export default function Home() {
     </div>
   );
 }
-
 const isValidURL = (url) => {
   try {
     new URL(url);

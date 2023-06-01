@@ -1,19 +1,19 @@
-const cheerio = require("cheerio");
-const axios = require("axios");
+import fetch from "node-fetch";
+import { parse } from "node-html-parser";
 
 export default async function handler(req, res) {
   const { url } = req.query;
 
   try {
-    const response = await axios.get(url);
-
-    const $ = cheerio.load(response.data);
-
-    const [title, description, firstImgSrc] = await Promise.all([
-      $("head > title").text(),
-      $('head meta[name="description"]').attr("content"),
-      $("main img").first().attr("src"),
-    ]);
+    const response = await fetch(url);
+    const html = await response.text();
+    const root = parse(html);
+    const title = root.querySelector("title").text;
+    const description =
+      root.querySelector("meta[name='description']")?.getAttribute("content") ??
+      "";
+    const firstImg = root.querySelector("main img");
+    const firstImgSrc = firstImg ? firstImg.getAttribute("src") : null;
 
     res.json({ title, description, firstImgSrc, url });
   } catch (error) {

@@ -9,6 +9,7 @@ export default function Home() {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
+    let data = localStorage.getItem(url);
     if (!url) {
       setLoading(false);
       setError(true);
@@ -18,6 +19,11 @@ export default function Home() {
       setCardHTML("Invalid URL");
       setLoading(false);
       setError(true);
+      return;
+    }
+    if (data) {
+      setCardData(JSON.parse(data));
+      setLoading(false);
       return;
     }
     const fetchData = async () => {
@@ -30,6 +36,7 @@ export default function Home() {
         const data = await response.json();
         document.title = data.title;
         setCardData(data);
+        localStorage.setItem(url, JSON.stringify(data)); // 缓存数据
       } catch (error) {
         console.error(error);
         setCardData({ error: "An error occurred" });

@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
 export default function Home() {
+  //.
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);

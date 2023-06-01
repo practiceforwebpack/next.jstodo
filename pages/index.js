@@ -55,7 +55,7 @@ export default function Home() {
           <h1 className={styles404.h1}>Oops! Page Not Found</h1>
           <div className={styles404.imgwrapper}>
             <img
-              src="404.png"
+              src="404.webp"
               alt="404 image"
               layout="fill"
               objectFit="contain"

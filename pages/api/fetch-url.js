@@ -1,3 +1,4 @@
+console.time("api");
 import { isValidURL, decodeURI, fetchHTML, extractData } from "./helpers.js";
 
 export default async function handler(req, res) {
@@ -26,3 +27,4 @@ export default async function handler(req, res) {
     res.status(500).json({ message: "Error", error: error.message });
   }
 }
+console.timeEnd("api");

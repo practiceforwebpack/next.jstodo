@@ -1,35 +1,45 @@
-console.time("页面");
 import Head from "next/head";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
+
 export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
   useEffect(() => {
+    console.time("fetchData");
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
     let data = localStorage.getItem(url);
+
     if (!url) {
       setLoading(false);
       setError(true);
+      console.timeEnd("fetchData"); // 分别在每个判断中加上计时结束
       return;
     }
+
     if (!isValidURL(url)) {
       setCardHTML("Invalid URL");
       setLoading(false);
       setError(true);
+      console.timeEnd("fetchData");
       return;
     }
+
     if (data) {
       setCardData(JSON.parse(data));
       setLoading(false);
+      console.timeEnd("fetchData");
       return;
     }
+
     const fetchData = async () => {
       setLoading(true);
       setError(false); // reset error status
+
       try {
         const response = await fetch(
           `/api/fetch-url?url=${url}&redirect=false`
@@ -43,14 +53,19 @@ export default function Home() {
         setCardData({ error: "An error occurred" });
         setError(true);
       }
+
       setLoading(false);
+      console.timeEnd("fetchData");
     };
+
     fetchData();
   }, []);
+
   const handleClick = (e) => {
     e.preventDefault();
     window.location.href = cardData.url;
   };
+
   if (error) {
     return (
       <div className={styles404.container}>
@@ -73,6 +88,9 @@ export default function Home() {
       </div>
     ); // render error message
   }
+
+  console.timeEnd("页面"); // 在最后的return中加上计时结束
+
   return (
     <div>
       <Head>
@@ -80,6 +98,7 @@ export default function Home() {
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="znz.png" />
       </Head>
+
       <main>
         <a href={cardData.url} onClick={handleClick}>
           <div className="wx-card">
@@ -118,6 +137,7 @@ export default function Home() {
           </div>
         </a>
       </main>
+
       <style jsx>{`
         a {
           text-decoration: none;
@@ -230,6 +250,7 @@ export default function Home() {
     </div>
   );
 }
+
 const isValidURL = (url) => {
   try {
     new URL(url);
@@ -238,4 +259,5 @@ const isValidURL = (url) => {
     return false;
   }
 };
-console.timeEnd("页面");
+
+console.time("页面"); // 页面开始计时

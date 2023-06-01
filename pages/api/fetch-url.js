@@ -1,9 +1,8 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
 
-// 定义路由处理函数
-async function handler(req, res) {
-  const { url } = req.query; // 获取参数中的 url
+export default async function handler(req, res) {
+  const { url } = req.query;
 
   try {
     // 发送 GET 请求获取网站 HTML 内容
@@ -16,11 +15,11 @@ async function handler(req, res) {
     const title = $("title").text();
     const description = $('meta[name="description"]').attr("content");
     const firstImgSrc = $("img").first().attr("src");
-    // 返回结果
-    res.status(200).json({ title, description, firstImgSrc, url });
+
+    // 直接返回结果
+    res.json({ title, description, firstImgSrc, url });
   } catch (error) {
+    // 处理异常情况，并返回错误信息
     res.status(500).json({ message: "Internal Server Error" });
   }
 }
-
-export default handler;

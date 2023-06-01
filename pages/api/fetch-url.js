@@ -1,33 +1,28 @@
-import { get } from "axios";
-import { load } from "cheerio";
+import { isValidURL, decodeURI, fetchHTML, extractData } from "./helpers.js";
 
-async function getMetaData(url) {
+export default async function handler(req, res) {
+  let url = req.query.url || req.body.url;
+  if (!url && req.method === "GET") {
+    const urlParams = new URLSearchParams(req.url.slice(req.url.indexOf("?")));
+    url = urlParams.get("url");
+  }
+  if (!url) {
+    return res.status(400).json({ message: "URL is required" });
+  }
+
+  url = decodeURI(url);
+  if (!isValidURL(url)) {
+    return res.status(400).json({ message: "Invalid URL" });
+  }
+
   try {
-    if (!url) {
-      throw new Error("URL is required");
-    }
+    const html = await fetchHTML(url);
+    const data = extractData(html);
 
-    const response = await get(url);
-    const html = response.data;
-    const $ = load(html);
-
-    const title =
-      $("meta[property='og:title']").attr("content") || $("title").text();
-    const description =
-      $("meta[property='og:description']").attr("content") ||
-      $("meta[name='description']").attr("content") ||
-      "";
-    const image = $("meta[property='og:image']").attr("content") || "";
-
-    return {
-      url,
-      title,
-      description,
-      image,
-    };
+    const result = { ...data, url };
+    res.status(200).json(result);
   } catch (error) {
-    throw error;
+    console.error(error);
+    res.status(500).json({ message: "Error", error: error.message });
   }
 }
-
-export default getMetaData;

@@ -12,8 +12,8 @@ export default async function handler(req, res) {
     const $ = cheerio.load(response.data);
 
     // 获取标题、描述和第一张图片链接
-    const title = $("title").text();
-    const description = $('meta[name="description"]').attr("content");
+    const title = $("head title").text();
+    const description = $('head meta[name="description"]').attr("content");
     const firstImgSrc = $("img").first().attr("src");
 
     // 直接返回结果

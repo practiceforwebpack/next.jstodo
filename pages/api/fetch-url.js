@@ -16,7 +16,8 @@ export default async function handler(req, res) {
     const firstImgSrc = firstImg ? firstImg.getAttribute("src") : null;
 
     res.json({ title, description, firstImgSrc, url });
-  } catch (error) {
+  } catch (e) {
+    console.error(`Failed to fetch ${url}: ${e.message}`, e);
     res.status(500).json({ message: "Internal Server Error" });
   }
 }

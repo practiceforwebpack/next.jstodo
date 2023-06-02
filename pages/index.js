@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
-import styles from "./styles.module.css";
+
 export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
@@ -86,15 +86,10 @@ export default function Home() {
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="znz.png" />
       </Head>
-      <Head>
-        <title>{cardData.title}</title>
-        <meta name="description" content="Fetch URL Card" />
-        <link rel="icon" href="/znz.png" />
-      </Head>
       <main>
         <a href={cardData.url} onClick={handleClick}>
-          <div className={styles.card}>
-            <div className={styles.cardTitle}>
+          <div className="wx-card">
+            <div className="wx-card-title">
               {loading ? (
                 <>
                   <Skeleton width={200} height={24} />
@@ -103,8 +98,8 @@ export default function Home() {
                 <h2>{cardData.title}</h2>
               )}
             </div>
-            <div className={styles.cardContent}>
-              <div className={styles.cardDescription}>
+            <div className="wx-card-content">
+              <div className="wx-card-description">
                 {loading ? (
                   <>
                     <Skeleton count={7} />
@@ -113,7 +108,7 @@ export default function Home() {
                   <p>{cardData.description}</p>
                 )}
               </div>
-              <div className={styles.cardImage}>
+              <div className="wx-card-image">
                 {loading ? (
                   <Skeleton width={90} height={90} />
                 ) : (
@@ -122,8 +117,8 @@ export default function Home() {
               </div>
             </div>
             {loading && (
-              <div className={styles.cardOverlay}>
-                <div className={styles.cardLoader} />
+              <div className="wx-card-overlay">
+                <div className="wx-card-loader" />
               </div>
             )}
           </div>

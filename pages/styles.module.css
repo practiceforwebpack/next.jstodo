@@ -1,0 +1,86 @@
+.card {
+    transition: transform 0.3s ease-in-out;
+     margin: 25px auto;
+    width: 80vw;
+    max-width: 480px;
+    padding: 16px;
+    background-color: #fff;
+    border-radius: 6px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.25);
+    transition: box-shadow 0.3s ease-in-out;
+    cursor: pointer;
+    position: relative;
+    border-radius: 20px;
+  }
+  
+  .card:hover {
+    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
+  }
+  
+  .cardTitle {
+    margin-bottom: 10px;
+  }
+  
+  .cardTitle h2 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .cardContent {
+    display: flex;
+    align-items: center;
+  }
+  
+  .cardDescription {
+    margin-right: 20px;
+    flex: 1;
+  }
+  
+  .cardDescription p {
+    font-size: 14px;
+    color: #666;
+    line-height: 1.5;
+    margin: 0;
+  }
+  
+  .cardImage {
+    width: 90px;
+    height: 90px;
+    overflow: hidden;
+    border-radius: 5px;
+    margin-right: 20px;
+  }
+  
+  .cardImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  
+  .cardOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(255, 255, 255, 0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .cardLoader {
+    width: 50px;
+    height: 50px;
+    border: 4px solid rgba(0, 0, 0, 0.3);
+    border-top-color: #1c1c1c;
+    border-radius: 50%;
+    animation: rotate 1s linear infinite;
+  }
+  
+  @keyframes rotate {
+    to {
+      transform: rotate(360deg);
+    }
+  }

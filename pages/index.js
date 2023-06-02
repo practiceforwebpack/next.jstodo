@@ -2,25 +2,22 @@ import Head from "next/head";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
-
+import styles from "./styles.module.css";
 export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
   useEffect(() => {
     console.time("fetchData");
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
     let data = localStorage.getItem(url);
-
     if (!url) {
       setLoading(false);
       setError(true);
       console.timeEnd("fetchData"); // 分别在每个判断中加上计时结束
       return;
     }
-
     if (!isValidURL(url)) {
       setCardHTML("Invalid URL");
       setLoading(false);
@@ -28,18 +25,15 @@ export default function Home() {
       console.timeEnd("fetchData");
       return;
     }
-
     if (data) {
       setCardData(JSON.parse(data));
       setLoading(false);
       console.timeEnd("fetchData");
       return;
     }
-
     const fetchData = async () => {
       setLoading(true);
       setError(false); // reset error status
-
       try {
         const response = await fetch(
           `/api/fetch-url?url=${url}&redirect=false`
@@ -53,19 +47,15 @@ export default function Home() {
         setCardData({ error: "An error occurred" });
         setError(true);
       }
-
       setLoading(false);
       console.timeEnd("fetchData");
     };
-
     fetchData();
   }, []);
-
   const handleClick = (e) => {
     e.preventDefault();
     window.location.href = cardData.url;
   };
-
   if (error) {
     return (
       <div className={styles404.container}>
@@ -88,9 +78,7 @@ export default function Home() {
       </div>
     ); // render error message
   }
-
   console.timeEnd("页面"); // 在最后的return中加上计时结束
-
   return (
     <div>
       <Head>
@@ -98,10 +86,15 @@ export default function Home() {
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="znz.png" />
       </Head>
+      <Head>
+        <title>{cardData.title}</title>
+        <meta name="description" content="Fetch URL Card" />
+        <link rel="icon" href="/znz.png" />
+      </Head>
       <main>
         <a href={cardData.url} onClick={handleClick}>
-          <div className="wx-card">
-            <div className="wx-card-title">
+          <div className={styles.card}>
+            <div className={styles.cardTitle}>
               {loading ? (
                 <>
                   <Skeleton width={200} height={24} />
@@ -110,8 +103,8 @@ export default function Home() {
                 <h2>{cardData.title}</h2>
               )}
             </div>
-            <div className="wx-card-content">
-              <div className="wx-card-description">
+            <div className={styles.cardContent}>
+              <div className={styles.cardDescription}>
                 {loading ? (
                   <>
                     <Skeleton count={7} />
@@ -120,7 +113,7 @@ export default function Home() {
                   <p>{cardData.description}</p>
                 )}
               </div>
-              <div className="wx-card-image">
+              <div className={styles.cardImage}>
                 {loading ? (
                   <Skeleton width={90} height={90} />
                 ) : (
@@ -129,14 +122,13 @@ export default function Home() {
               </div>
             </div>
             {loading && (
-              <div className="wx-card-overlay">
-                <div className="wx-card-loader" />
+              <div className={styles.cardOverlay}>
+                <div className={styles.cardLoader} />
               </div>
             )}
           </div>
         </a>
       </main>
-
       <style jsx>{`
         a {
           text-decoration: none;
@@ -249,7 +241,6 @@ export default function Home() {
     </div>
   );
 }
-
 const isValidURL = (url) => {
   try {
     new URL(url);
@@ -258,5 +249,4 @@ const isValidURL = (url) => {
     return false;
   }
 };
-
 console.time("页面"); // 页面开始计时

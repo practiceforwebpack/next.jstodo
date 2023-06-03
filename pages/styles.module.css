@@ -28,7 +28,7 @@
   transition: transform 0.3s ease-in-out;
 }
 .wxcardtitle {
-  color: #D8D8D8;
+  color:  rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: flex-start;
@@ -41,7 +41,7 @@
   padding: 0 5px;
 }
 .wxcardtitleloading {
-  color: rgba(0, 0, 0, 0.85);
+  color:#D8D8D8;
 }
 .wxcardloader {
   content: "";
@@ -100,7 +100,7 @@
   -webkit-box-orient: vertical;
 }
 .wxcardoverlay {
-  display: flex;
+  display: none;
   position: absolute;
   align-items: center;
   justify-content: center;
@@ -112,5 +112,5 @@
   z-index: 1;
 }
 .wxcardoverlayloading {
-  display: none;
+  display:flex;
 }

@@ -90,9 +90,11 @@ export default function Home() {
         <a className={styles.a} href={cardData.url} onClick={handleClick}>
           <div className={styles.wxcard}>
             <div
-              className={`${
-                loading ? styles.wxcardtitle : styles.wxcardtitle
-              } ${styles.wxcardtitleloading}`}
+              className={
+                loading
+                  ? `${styles.wxcardtitle} ${styles.wxcardtitleloading}`
+                  : styles.wxcardtitle
+              }
             >
               {loading ? (
                 <>
@@ -110,9 +112,9 @@ export default function Home() {
                   </>
                 ) : (
                   <p
-                    className={`${loading ? styles.p : styles.p} ${
-                      styles.ploading
-                    }`}
+                    className={
+                      loading ? styles.p : `${styles.p} ${styles.ploading}`
+                    }
                   >
                     {cardData.description}
                   </p>
@@ -128,9 +130,11 @@ export default function Home() {
             </div>
             {loading && (
               <div
-                className={`${
-                  loading ? styles.wxcardoverlay : styles.wxcardoverlay
-                } ${styles.wxcardoverlayloading}`}
+                className={
+                  loading
+                    ? `${styles.wxcardoverlay} ${styles.wxcardoverlayloading}`
+                    : styles.wxcardoverlay
+                }
               >
                 <div className={styles.wxcardloader} />
               </div>

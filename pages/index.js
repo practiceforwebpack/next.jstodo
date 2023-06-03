@@ -86,6 +86,7 @@ export default function Home() {
         <meta name="description" content="Fetch URL Card" />
         <link rel="icon" href="znz.png" />
       </Head>
+
       <main>
         <a className={styles.a} href={cardData.url} onClick={handleClick}>
           <div className={styles.wxcard}>

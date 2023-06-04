@@ -18,7 +18,7 @@ class MyDocument extends Document {
                 
                 <!-- Event Tracking -->
                 function trackCardEvent(url) {
-                  gtag('event', 'cardClick', { 
+                  gtag('event', 'lick', { 
                     'event_name':'cardClick'
                     'event_category': 'Card Click',
                     'event_label': url 

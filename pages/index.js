@@ -66,8 +66,7 @@ export default function Home() {
     window.location.href = cardData.url;
 
     // 添加 Google Analytics 代码追踪点击事件
-    gtag("event", "cardClick", {
-      event_name: "cardClick",
+    gtag("event", 1, {
       event_category: "cardClick",
       event_label: cardData.url,
     });

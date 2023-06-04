@@ -90,7 +90,7 @@ export default function Home() {
 
       <main>
         <a className={styles.a} href={cardData.url} onClick={handleClick}>
-          <div onClick={tarckCardEvent(cardData.url)} className={styles.wxcard}>
+          <div onClick={trackCardEvent(cardData.url)} className={styles.wxcard}>
             <div
               className={
                 loading

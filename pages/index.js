@@ -63,11 +63,12 @@ export default function Home() {
 
   const handleClick = (e) => {
     e.preventDefault();
-    window.location.href = cardData.url;
-
-    window.gtag("G-43HNXJP55G", "1", {
+    const encodedUrl = encodeURIComponent(cardData.url);
+    window.location.href = decodeURIComponent(encodedUrl);
+    gtag("event", "1", {
       event_category: "cardClick",
-      event_label: cardData.url,
+      event_label: encodedUrl,
+      value: 1,
     });
   };
 

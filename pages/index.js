@@ -61,16 +61,20 @@ export default function Home() {
     fetchData();
   }, []);
 
-  const handleClick = (e) => {
-    e.preventDefault();
+  function handleClick() {
+    // 对链接地址进行编码
     const encodedUrl = encodeURIComponent(cardData.url);
-    window.location.href = decodeURIComponent(encodedUrl);
+    // 上传数据并在成功后跳转到其他URL
     gtag("event", "1", {
       event_category: "cardClick",
       event_label: encodedUrl,
       value: 1,
-    });
-  };
+    }),
+      function () {
+        // 对编码后的链接地址进行解码并跳转
+        window.location.href = decodeURIComponent(encodedUrl);
+      };
+  }
 
   if (error) {
     return (

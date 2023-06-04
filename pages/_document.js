@@ -14,16 +14,7 @@ class MyDocument extends Document {
                 window.dataLayer = window.dataLayer || [];
                 function gtag(){dataLayer.push(arguments);}
                 gtag('js', new Date());
-                gtag('config', 'G-43HNXJP55G');
-                
-                <!-- Event Tracking -->
-                function trackCardEvent(url) {
-                  gtag('event', 'lick', { 
-                    'event_name':'cardClick'
-                    'event_category': 'Card Click',
-                    'event_label': url 
-                  });
-                }
+                gtag('config', 'G-43HNXJP55G');                
               `,
             }}
           />

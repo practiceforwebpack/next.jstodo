@@ -7,7 +7,13 @@ export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-
+  function trackCardEvent(url) {
+    gtag("event", "lick", {
+      event_name: "cardClick",
+      event_category: "Card Click",
+      event_label: url,
+    });
+  }
   useEffect(() => {
     console.time("fetchData");
     const urlParams = new URLSearchParams(window.location.search);

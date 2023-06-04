@@ -3,21 +3,27 @@ import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
 import styles from "./styles.module.css";
+import { gtag } from "../lib/gtag"; // 导入 gtag 函数
+
 export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
   useEffect(() => {
     console.time("fetchData");
+
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
     let data = localStorage.getItem(url);
+
     if (!url) {
       setLoading(false);
       setError(true);
       console.timeEnd("fetchData"); // 分别在每个判断中加上计时结束
       return;
     }
+
     if (!isValidURL(url)) {
       setCardHTML("Invalid URL");
       setLoading(false);
@@ -25,12 +31,14 @@ export default function Home() {
       console.timeEnd("fetchData");
       return;
     }
+
     if (data) {
       setCardData(JSON.parse(data));
       setLoading(false);
       console.timeEnd("fetchData");
       return;
     }
+
     const fetchData = async () => {
       setLoading(true);
       setError(false); // reset error status
@@ -52,6 +60,7 @@ export default function Home() {
     };
     fetchData();
   }, []);
+
   const handleClick = (e) => {
     e.preventDefault();
     window.location.href = cardData.url;
@@ -63,6 +72,7 @@ export default function Home() {
       event_label: cardData.url,
     });
   };
+
   if (error) {
     return (
       <div className={styles404.container}>
@@ -85,7 +95,9 @@ export default function Home() {
       </div>
     ); // render error message
   }
+
   console.timeEnd("页面"); // 在最后的return中加上计时结束
+
   return (
     <div>
       <Head>
@@ -157,6 +169,7 @@ export default function Home() {
     </div>
   );
 }
+
 const isValidURL = (url) => {
   try {
     new URL(url);
@@ -165,4 +178,5 @@ const isValidURL = (url) => {
     return false;
   }
 };
+
 console.time("页面"); // 页面开始计时

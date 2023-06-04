@@ -65,7 +65,7 @@ export default function Home() {
     // 对链接地址进行编码
     const encodedUrl = encodeURIComponent(cardData.url);
     // 上传数据并在成功后跳转到其他URL
-    gtag("event", "1", {
+    gtag("event", "cardClick", {
       event_category: "cardClick",
       event_label: encodedUrl,
       value: 1,

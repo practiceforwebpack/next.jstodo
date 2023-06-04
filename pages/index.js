@@ -7,13 +7,6 @@ export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
-  function trackCardEvent(url) {
-    gtag("event", "lick", {
-      event_name: "cardClick",
-      event_category: "Card Click",
-      event_label: url,
-    });
-  }
   useEffect(() => {
     console.time("fetchData");
     const urlParams = new URLSearchParams(window.location.search);
@@ -62,6 +55,12 @@ export default function Home() {
   const handleClick = (e) => {
     e.preventDefault();
     window.location.href = cardData.url;
+
+    // 添加 Google Analytics 代码追踪点击事件
+    gtag("event", "card_click", {
+      event_category: "card",
+      event_label: cardData.url,
+    });
   };
   if (error) {
     return (
@@ -96,7 +95,7 @@ export default function Home() {
 
       <main>
         <a className={styles.a} href={cardData.url} onClick={handleClick}>
-          <div onClick={trackCardEvent(cardData.url)} className={styles.wxcard}>
+          <div className={styles.wxcard}>
             <div
               className={
                 loading
@@ -132,11 +131,7 @@ export default function Home() {
                 {loading ? (
                   <Skeleton width={90} height={90} />
                 ) : (
-                  <img
-                    className={styles.img}
-                    src={cardData.firstImgSrc}
-                    alt="图片"
-                  />
+                  <img src={cardData.firstImgSrc} alt="图片" />
                 )}
               </div>
             </div>

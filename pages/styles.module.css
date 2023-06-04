@@ -77,8 +77,8 @@
   color: rgba(0, 0, 0, 0.65);
 }
 .img {
-  padding: 8px;
-  width: 90px;
+  padding: 16px;
+  width: 100px;
 }
 .wxcardcontent {
   display: flex;

@@ -125,7 +125,11 @@ export default function Home() {
                 {loading ? (
                   <Skeleton width={90} height={90} />
                 ) : (
-                  <img src={cardData.firstImgSrc} alt="图片" />
+                  <img
+                    className={styles.img}
+                    src={cardData.firstImgSrc}
+                    alt="图片"
+                  />
                 )}
               </div>
             </div>

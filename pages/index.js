@@ -7,6 +7,7 @@ export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+
   useEffect(() => {
     console.time("fetchData");
     const urlParams = new URLSearchParams(window.location.search);
@@ -89,7 +90,7 @@ export default function Home() {
 
       <main>
         <a className={styles.a} href={cardData.url} onClick={handleClick}>
-          <div className={styles.wxcard}>
+          <div onClick={tarckCardEvent(cardData.url)} className={styles.wxcard}>
             <div
               className={
                 loading

@@ -47,6 +47,13 @@ export default function Home() {
         );
         const data = await response.json();
         document.title = data.title;
+        if (url.includes("jd.com")) {
+          data.title = "京东(JD.COM)";
+          data.description =
+            "京东(JD.COM)-正品低价、品质保障、配送及时、轻松购物！";
+          data.firstImgSrc = "jd.jpg";
+        }
+
         setCardData(data);
         localStorage.setItem(url, JSON.stringify(data)); // 缓存数据
       } catch (error) {

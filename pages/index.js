@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
 import styles from "./styles.module.css";
-import { gtag } from "../lib/gtag"; // 导入 gtag 函数
+import { gtag } from "../lib/gtag";
 
 export default function Home() {
   const [cardData, setCardData] = useState({});
@@ -20,12 +20,11 @@ export default function Home() {
     if (!url) {
       setLoading(false);
       setError(true);
-      console.timeEnd("fetchData"); // 分别在每个判断中加上计时结束
+      console.timeEnd("fetchData");
       return;
     }
 
     if (!isValidURL(url)) {
-      setCardHTML("Invalid URL");
       setLoading(false);
       setError(true);
       console.timeEnd("fetchData");
@@ -62,16 +61,13 @@ export default function Home() {
   }, []);
 
   function handleClick() {
-    // 对链接地址进行编码
     const encodedUrl = encodeURIComponent(cardData.url);
-    // 上传数据并在成功后跳转到其他URL
     gtag("event", "cardClick", {
       event_category: "cardClick",
       event_label: encodedUrl,
       value: 1,
     }),
       function () {
-        // 对编码后的链接地址进行解码并跳转
         window.location.href = decodeURIComponent(encodedUrl);
       };
   }
@@ -96,10 +92,10 @@ export default function Home() {
           </div>
         </div>
       </div>
-    ); // render error message
+    );
   }
 
-  console.timeEnd("页面"); // 在最后的return中加上计时结束
+  console.timeEnd("页面");
 
   return (
     <div>
@@ -174,6 +170,12 @@ export default function Home() {
 }
 
 const isValidURL = (url) => {
+  let regex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w.-]*)*\/?$/;
+
+  if (!url.match(regex)) {
+    return false;
+  }
+
   try {
     new URL(url);
     return true;

@@ -15,6 +15,8 @@ export default function Home() {
 
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
+    const urlTitle = urlParams.get("title"); // 获取 URL 中的 title
+
     let data = localStorage.getItem(url);
 
     if (!url) {
@@ -47,6 +49,12 @@ export default function Home() {
         );
         const data = await response.json();
         document.title = data.title;
+
+        // 如果 URL 中有 title，则使用 URL 中的 title 覆盖返回的 title
+        if (urlTitle) {
+          data.title = urlTitle;
+        }
+
         if (url.includes("jd.com")) {
           data.title = "京东(JD.COM)";
           data.description =

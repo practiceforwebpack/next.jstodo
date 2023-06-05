@@ -4,12 +4,11 @@ import { parse } from "node-html-parser";
 export default async function handler(req, res) {
   const { url } = req.query;
   const requestOptions = {
-    redirect: "follow", // 遵循 follow redirect
+    redirect: "follow",
   };
-
   try {
     let response = await fetch(new Request(url, requestOptions));
-    let finalUrl = response.url; // 获取最终的 URL
+    let finalUrl = response.url;
     if (url !== finalUrl) {
       console.log(`Redirected to: ${finalUrl}`);
     }

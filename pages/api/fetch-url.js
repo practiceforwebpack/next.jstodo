@@ -23,6 +23,14 @@ export default async function handler(req, res) {
     const firstImgSrc = firstImg ? firstImg.getAttribute("src") : "default.png";
 
     res.json({ title, description, firstImgSrc, url: finalUrl });
+    console.log(
+      `JSON response: ${JSON.stringify({
+        title,
+        description,
+        firstImgSrc,
+        url: finalUrl,
+      })}`
+    );
   } catch (e) {
     console.error(`Failed to fetch ${url}: ${e.message}`, e);
     res.status(500).json({ message: "Internal Server Error" });

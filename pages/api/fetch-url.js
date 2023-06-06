@@ -15,12 +15,12 @@ export default async function handler(req, res) {
 
     const html = await response.text();
     const root = parse(html);
-    const title = root.querySelector("title").text;
+    const title = root.querySelector("title")?.text ?? "Default Title";
     const description =
       root.querySelector("meta[name='description']")?.getAttribute("content") ??
-      "";
+      "Default Description";
     const firstImg = root.querySelector("main img");
-    const firstImgSrc = firstImg ? firstImg.getAttribute("src") : null;
+    const firstImgSrc = firstImg ? firstImg.getAttribute("src") : "default.png";
 
     res.json({ title, description, firstImgSrc, url: finalUrl });
   } catch (e) {

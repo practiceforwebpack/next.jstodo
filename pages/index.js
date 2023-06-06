@@ -11,8 +11,6 @@ export default function Home() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    console.time("fetchData");
-
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
     const urlTitle = urlParams.get("title"); // 获取 URL 中的 title
@@ -22,24 +20,20 @@ export default function Home() {
     if (!url) {
       setLoading(false);
       setError(true);
-      console.timeEnd("fetchData");
+
       return;
     }
 
     if (!isValidURL(url)) {
       setLoading(false);
       setError(true);
-      console.timeEnd("fetchData");
       return;
     }
-
     if (data) {
       setCardData(JSON.parse(data));
       setLoading(false);
-      console.timeEnd("fetchData");
       return;
     }
-
     const fetchData = async () => {
       setLoading(true);
       setError(false); // reset error status
@@ -48,20 +42,13 @@ export default function Home() {
           `/api/fetch-url?url=${url}&redirect=false`
         );
         const data = await response.json();
+        console.log(data);
         document.title = data.title;
 
         // 如果 URL 中有 title，则使用 URL 中的 title 覆盖返回的 title
         if (urlTitle) {
           data.title = urlTitle;
         }
-
-        if (url.includes("jd.com")) {
-          data.title = "京东(JD.COM)";
-          data.description =
-            "京东(JD.COM)-正品低价、品质保障、配送及时、轻松购物！";
-          data.firstImgSrc = "jd.jpg";
-        }
-
         setCardData(data);
         localStorage.setItem(url, JSON.stringify(data)); // 缓存数据
       } catch (error) {
@@ -70,7 +57,6 @@ export default function Home() {
         setError(true);
       }
       setLoading(false);
-      console.timeEnd("fetchData");
     };
     fetchData();
   }, []);
@@ -109,8 +95,6 @@ export default function Home() {
       </div>
     );
   }
-
-  console.timeEnd("页面");
 
   return (
     <div>
@@ -198,5 +182,3 @@ const isValidURL = (url) => {
     return false;
   }
 };
-
-console.time("页面"); // 页面开始计时

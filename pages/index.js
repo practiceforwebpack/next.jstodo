@@ -4,12 +4,18 @@ import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
 import styles from "./styles.module.css";
 import { gtag } from "../lib/gtag";
+import { useParams } from "react-router-dom";
 
 export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  const [urlParam, setUrlParam] = useState("");
+  const { yhurl } = useParams();
+  useEffect(() => {
+    setUrlParam(yhurl);
+  }, [yhurl]);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
@@ -163,6 +169,7 @@ export default function Home() {
             )}
           </div>
         </a>
+        <p>{urlParam}</p>
       </main>
     </div>
   );

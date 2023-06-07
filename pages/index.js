@@ -4,22 +4,17 @@ import Skeleton from "react-loading-skeleton";
 import styles404 from "./404.module.css";
 import styles from "./styles.module.css";
 import { gtag } from "../lib/gtag";
-import { useParams } from "react-router-dom";
 
 export default function Home() {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
-  const [urlParam, setUrlParam] = useState("");
-  const { yhurl } = useParams();
-  useEffect(() => {
-    setUrlParam(yhurl);
-  }, [yhurl]);
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const url = urlParams.get("url");
     const urlTitle = urlParams.get("title"); // 获取 URL 中的 title
+    const yhParams = urlParams.get("yh"); // 获取 URL 中的 yh
 
     let data = localStorage.getItem(url);
 
@@ -55,6 +50,13 @@ export default function Home() {
         if (urlTitle) {
           data.title = urlTitle;
         }
+
+        // 获取多个网址并解析为数组
+        if (yhParams) {
+          const urls = yhParams.split("&");
+          data.urls = urls;
+        }
+
         setCardData(data);
         localStorage.setItem(url, JSON.stringify(data)); // 缓存数据
       } catch (error) {
@@ -67,8 +69,8 @@ export default function Home() {
     fetchData();
   }, []);
 
-  function handleClick() {
-    const encodedUrl = encodeURIComponent(cardData.url);
+  function handleClick(url) {
+    const encodedUrl = encodeURIComponent(url);
     gtag("event", "cardClick", {
       event_category: "cardClick",
       event_label: encodedUrl,
@@ -111,7 +113,11 @@ export default function Home() {
       </Head>
 
       <main>
-        <a className={styles.a} href={cardData.url} onClick={handleClick}>
+        <a
+          className={styles.a}
+          href={cardData.url}
+          onClick={() => handleClick(cardData.url)}
+        >
           <div className={styles.wxcard}>
             <div
               className={
@@ -169,7 +175,22 @@ export default function Home() {
             )}
           </div>
         </a>
-        <p>{urlParam}</p>
+
+        {/* 如果有多个网址，则显示到页面下方 */}
+        {cardData.urls && (
+          <div className={styles.urls}>
+            <h3>更多相关网址：</h3>
+            <ul className={styles.ul}>
+              {cardData.urls.map((url, index) => (
+                <li className={styles.li} key={index}>
+                  <a href={url} onClick={() => handleClick(url)}>
+                    {url}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
       </main>
     </div>
   );

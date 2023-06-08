@@ -53,7 +53,7 @@ export default function Home() {
 
         // 获取多个网址并解析为数组
         if (yhParams) {
-          const urls = yhParams.split("&");
+          const urls = decodeURIComponent(yhParams).split(",");
           data.urls = urls;
         }
 
@@ -179,13 +179,19 @@ export default function Home() {
         {/* 如果有多个网址，则显示到页面下方 */}
         {cardData.urls && (
           <div className={styles.urls}>
-            <h3>更多相关网址：</h3>
-            <ul className={styles.ul}>
+            <h3></h3>
+            <ul className={""}>
               {cardData.urls.map((url, index) => (
-                <li className={styles.li} key={index}>
-                  <a href={url} onClick={() => handleClick(url)}>
-                    {url}
-                  </a>
+                <li className={styles.urlsli} key={index}>
+                  <div className={""}>
+                    <a
+                      className={styles.urlsa}
+                      href={url}
+                      onClick={() => handleClick(url)}
+                    >
+                      {url}
+                    </a>
+                  </div>
                 </li>
               ))}
             </ul>

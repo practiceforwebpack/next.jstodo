@@ -1,4 +1,4 @@
-import fetch, { Request } from "node-fetch";
+import fetch from "node-fetch";
 import { parse } from "node-html-parser";
 
 export default async function handler(req, res) {
@@ -6,6 +6,7 @@ export default async function handler(req, res) {
   const requestOptions = {
     redirect: "follow",
   };
+
   try {
     let response = await fetch(new Request(url, requestOptions));
     let finalUrl = response.url;
@@ -15,10 +16,10 @@ export default async function handler(req, res) {
 
     const html = await response.text();
     const root = parse(html);
-    const title = root.querySelector("title")?.text ?? "Default Title";
+    const title = root.querySelector("title")?.text || "Default Title";
     const description =
-      root.querySelector("meta[name='description']")?.getAttribute("content") ??
-      "Default Description";
+      root.querySelector("meta[name='description']")?.getAttribute("content") ||
+      "";
     const firstImg = root.querySelector("main img");
     const firstImgSrc = firstImg ? firstImg.getAttribute("src") : "default.png";
 
@@ -33,6 +34,11 @@ export default async function handler(req, res) {
     );
   } catch (e) {
     console.error(`Failed to fetch ${url}: ${e.message}`, e);
-    res.status(500).json({ message: "Internal Server Error" });
+    res.json({
+      title: "Default Title",
+      description: "",
+      firstImgSrc: "default.png",
+      url,
+    });
   }
 }

@@ -114,3 +114,24 @@
 .wxcardoverlayloading {
   display:flex;
 }
+
+.urls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  }
+  
+  .urlsli {
+  display: flex;
+  align-items: center;
+  margin-bottom: 8px;
+  }
+  
+  .urlsa {
+  display: block;
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: center;
+  width: 100%;
+  }

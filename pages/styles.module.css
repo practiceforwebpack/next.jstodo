@@ -8,38 +8,37 @@
   transition: transform 0.3s ease-in-out;
   margin: 25px auto;
   position: relative;
-  padding: 16px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   align-items: center;
   width: 80vw;
   max-width: 480px;
-  height: 144px;
+  height: 136px;
   background-color: #f7f7f7;
   box-shadow: rgba(0, 0, 0, 0.01) 0px 1px 3px 0px,
-    rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+  rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
   overflow: hidden;
   border-radius: 20px;
   border: 1px solid #f7f7f7;
-}
+  }
 .wxcard:hover {
   cursor: pointer;
   transform: scale(1.03);
   transition: transform 0.3s ease-in-out;
 }
 .wxcardtitle {
-  color:  rgba(0, 0, 0, 0.85);
+  color: rgba(0, 0, 0, 0.85);
   display: flex;
   align-items: center;
   justify-content: flex-start;
-  width: 100%;
-  height: 16px;
-  margin: 10px 5px 5px;
+  width: 50%;
+  height: 100%;
+  margin: 0;
   text-overflow: ellipsis;
   word-break: break-all;
   text-align: left;
   padding: 0 5px;
-}
+  }
 .wxcardtitleloading {
   color:#D8D8D8;
 }
@@ -77,18 +76,19 @@
   color: rgba(0, 0, 0, 0.65);
 }
 .img {
+  margin-top: 8px;
   padding: 16px;
   width: 100px;
 }
 .wxcardcontent {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
-  width: 100%;
-  height: 110px;
-  padding: 5px;
-  overflow: hidden;
+display: flex;
+flex-direction: row;
+justify-content: space-between;
+align-items: center;
+width: 100%;
+height: 110px;
+padding: 5px;
+overflow: hidden;
 }
 .wxcarddescription {
   margin: 2px;

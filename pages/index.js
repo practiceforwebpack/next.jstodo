@@ -15,7 +15,8 @@ export default function Home() {
     const url = urlParams.get("url");
     const urlTitle = urlParams.get("title"); // 获取 URL 中的 title
     const yhParams = urlParams.get("yh"); // 获取 URL 中的 yh
-
+    const encodedUrl = encodeURIComponent(url);
+    const encodedTitle = encodeURIComponent(urlTitle); // 如果需要编码 title，也可以加上这行代码
     let data = localStorage.getItem(url);
 
     if (!url) {
@@ -40,7 +41,7 @@ export default function Home() {
       setError(false); // reset error status
       try {
         const response = await fetch(
-          `/api/fetch-url?url=${url}&redirect=false`
+          `/api/fetch-url?url=${encodedUrl}&redirect=false&title=${encodedTitle}`
         );
         const data = await response.json();
         console.log(data);
@@ -70,14 +71,14 @@ export default function Home() {
   }, []);
 
   function handleClick(url) {
-    const encodedUrl = encodeURIComponent(url);
+    const decodedUrl = decodeURIComponent(url);
     gtag("event", "cardClick", {
       event_category: "cardClick",
-      event_label: encodedUrl,
+      event_label: decodedUrl,
       value: 1,
     }),
       function () {
-        window.location.href = decodeURIComponent(encodedUrl);
+        window.location.href = decodedUrl;
       };
   }
 

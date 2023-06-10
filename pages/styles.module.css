@@ -1,70 +1,44 @@
 .a {
   text-decoration: none;
 }
+
 .wxcard a {
   pointer-events: auto;
 }
+
 .wxcard {
   transition: transform 0.3s ease-in-out;
   margin: 25px auto;
   position: relative;
+  padding: 16px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  width: 80vw;
+  width: 80vw;  
   max-width: 480px;
-  height: 136px;
+  height: 144px;
   background-color: #f7f7f7;
   box-shadow: rgba(0, 0, 0, 0.01) 0px 1px 3px 0px,
-  rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
+    rgba(0, 0, 0, 0.04) 0px 0px 0px 1px;
   overflow: hidden;
   border-radius: 20px;
   border: 1px solid #f7f7f7;
-  }
+}
+
 .wxcard:hover {
   cursor: pointer;
   transform: scale(1.03);
   transition: transform 0.3s ease-in-out;
 }
-.wxcardtitle {
-  color: rgba(0, 0, 0, 0.85);
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 50%;
-  height: 100%;
-  margin: 0;
-  text-overflow: ellipsis;
-  word-break: break-all;
-  text-align: left;
-  padding: 0 5px;
-  }
 .wxcardtitleloading {
-  color:#D8D8D8;
+  color: #D8D8D8;
 }
-.wxcardloader {
-  content: "";
-  display: block;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  border: 2px solid #ccc;
-  border-top-color: #333;
-  animation: spin 0.8s ease-in-out infinite;
-}
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-}
+
 .h2 {
   color: rgba(0, 0, 0, 0.85);
   font-size: 18px;
   text-overflow: ellipsis;
-  margin: 10px 5px;
+  margin: 4px -4px;
 }
 .p {
   color: #696969;
@@ -72,33 +46,17 @@
   text-overflow: ellipsis;
   margin: 5px 2px;
 }
-.ploading {
-  color: rgba(0, 0, 0, 0.65);
-}
-.img {
-  margin-top: 8px;
-  padding: 16px;
-  width: 100px;
-}
-.wxcardcontent {
-display: flex;
-flex-direction: row;
-justify-content: space-between;
-align-items: center;
-width: 100%;
-height: 110px;
-padding: 5px;
-overflow: hidden;
-}
 .wxcarddescription {
-  margin: 2px;
-  width: 80%;
+
+  margin-top: -84px;
+  width: 100%;
   word-break: break-all;
   overflow: hidden;
   display: -webkit-box;
   -webkit-line-clamp: 6;
   -webkit-box-orient: vertical;
 }
+
 .wxcardoverlay {
   display: none;
   position: absolute;
@@ -111,19 +69,41 @@ overflow: hidden;
   background: rgba(255, 255, 255, 0.7);
   z-index: 1;
 }
+
 .wxcardoverlayloading {
-  display:flex;
+  display: flex;
+}
+
+.wxcardleft {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 80%;
+  height: 100%;
+  padding: 5px;
+}
+
+.wxcardright {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 25%;
+  height: 100%;
+}
+.img {
+  margin-top: -5px;
+  padding: 12px;
+  width: 124px;
 }
 
 .urls {
- 
   display: flex;
   justify-content: center;
   align-items: flex-start;
 }
 
 .urls li {
-
   left: 100px;
   display: flex;
   align-items: center;
@@ -131,9 +111,8 @@ overflow: hidden;
 }
 
 .urls a {
-  
   text-align: left;
   margin-left: -284px;
   padding: 10px;
   width: 100%;
-  }
+}

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Card from "../components/Card";
 import YhList from "../components/YhList";
 import Icon from "../components/Icon";
@@ -8,8 +8,10 @@ import NotFound from "../components/NotFound";
 export default function Home() {
   const [error, setError] = useState(false);
   const [urlParams, setUrlParams] = useState({});
+  const [cardData, setCardData] = useState({});
+  const [loading, setLoading] = useState(true);
 
-  if (!error && Object.keys(urlParams).length === 0) {
+  useEffect(() => {
     const urlParamsTmp = new URLSearchParams(window.location.search);
     const url = urlParamsTmp.get("url");
     const urlTitle = urlParamsTmp.get("title");
@@ -17,12 +19,57 @@ export default function Home() {
 
     if (!url) {
       setError(true);
-    } else if (!isValidURL(url)) {
-      setError(true);
-    } else {
-      setUrlParams({ url, urlTitle, yhParams });
+      setLoading(false);
+      return;
     }
-  }
+
+    if (!isValidURL(url)) {
+      setError(true);
+      setLoading(false);
+      return;
+    }
+
+    const encodedUrl = encodeURIComponent(url);
+    const encodedTitle = encodeURIComponent(urlTitle);
+    const decodedYhParams = decodeURIComponent(yhParams);
+
+    let data = localStorage.getItem(url);
+
+    if (data) {
+      setCardData(JSON.parse(data));
+      setLoading(false);
+      return;
+    }
+
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(
+          `/api/fetch-url?url=${encodedUrl}&redirect=false&title=${encodedTitle}`
+        );
+        const data = await response.json();
+        console.log(data);
+        document.title = data.title;
+
+        if (urlTitle) {
+          data.title = urlTitle;
+        }
+
+        if (decodedYhParams) {
+          const urls = decodedYhParams.split(",");
+          data.urls = urls;
+        }
+
+        setCardData(data);
+        localStorage.setItem(url, JSON.stringify(data));
+      } catch (error) {
+        console.error(error);
+        setCardData({ error: "An error occurred" });
+      }
+      setLoading(false);
+    };
+    fetchData();
+  }, []);
 
   if (error) {
     return <NotFound />;
@@ -31,18 +78,14 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>{urlParams.urlTitle}</title>
+        <title>{cardData.title}</title>
         <meta name="description" content="Fetch URL Card" />
         <Icon />
       </Head>
 
       <main>
-        <Card
-          url={urlParams.url}
-          urlTitle={urlParams.urlTitle}
-          yhParams={urlParams.yhParams}
-        />
-        {urlParams.yhParams && <YhList urls={urlParams.yhParams.split(",")} />}
+        <Card cardData={cardData} loading={loading} />
+        {cardData.urls && <YhList urls={cardData.urls} />}
       </main>
     </div>
   );

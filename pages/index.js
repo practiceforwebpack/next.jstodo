@@ -1,205 +1,48 @@
 import Head from "next/head";
-import { useState, useEffect } from "react";
-import Skeleton from "react-loading-skeleton";
-import styles404 from "./404.module.css";
-import styles from "./styles.module.css";
-import { gtag } from "../lib/gtag";
+import { useState } from "react";
+import Card from "../components/Card";
+import YhList from "../components/YhList";
+import Icon from "../components/Icon";
+import NotFound from "../components/NotFound";
 
 export default function Home() {
-  const [cardData, setCardData] = useState({});
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
+  const [urlParams, setUrlParams] = useState({});
 
-  useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const url = urlParams.get("url");
-    const urlTitle = urlParams.get("title"); // 获取 URL 中的 title
-    const yhParams = urlParams.get("yh"); // 获取 URL 中的 yh
-    const encodedUrl = encodeURIComponent(url);
-    const encodedTitle = encodeURIComponent(urlTitle); // 如果需要编码 title，也可以加上这行代码
-    let data = localStorage.getItem(url);
+  if (!error && Object.keys(urlParams).length === 0) {
+    const urlParamsTmp = new URLSearchParams(window.location.search);
+    const url = urlParamsTmp.get("url");
+    const urlTitle = urlParamsTmp.get("title");
+    const yhParams = urlParamsTmp.get("yh");
 
     if (!url) {
-      setLoading(false);
       setError(true);
-
-      return;
-    }
-
-    if (!isValidURL(url)) {
-      setLoading(false);
+    } else if (!isValidURL(url)) {
       setError(true);
-      return;
+    } else {
+      setUrlParams({ url, urlTitle, yhParams });
     }
-    if (data) {
-      setCardData(JSON.parse(data));
-      setLoading(false);
-      return;
-    }
-    const fetchData = async () => {
-      setLoading(true);
-      setError(false); // reset error status
-      try {
-        const response = await fetch(
-          `/api/fetch-url?url=${encodedUrl}&redirect=false&title=${encodedTitle}`
-        );
-        const data = await response.json();
-        console.log(data);
-        document.title = data.title;
-
-        // 如果 URL 中有 title，则使用 URL 中的 title 覆盖返回的 title
-        if (urlTitle) {
-          data.title = urlTitle;
-        }
-
-        // 获取多个网址并解析为数组
-        if (yhParams) {
-          const urls = decodeURIComponent(yhParams).split(",");
-          data.urls = urls;
-        }
-
-        setCardData(data);
-        localStorage.setItem(url, JSON.stringify(data)); // 缓存数据
-      } catch (error) {
-        console.error(error);
-        setCardData({ error: "An error occurred" });
-        setError(true);
-      }
-      setLoading(false);
-    };
-    fetchData();
-  }, []);
-
-  function handleClick(url) {
-    const decodedUrl = decodeURIComponent(url);
-    gtag("event", "cardClick", {
-      event_category: "cardClick",
-      event_label: decodedUrl,
-      value: 1,
-    }),
-      () => (window.location.href = decodedUrl);
   }
 
   if (error) {
-    return (
-      <div className={styles404.container}>
-        <Head>
-          <title>404 Not Found</title>
-          <meta name="description" content="404 Not Found" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <div className={styles404.content}>
-          <h1 className={styles404.h1}>Oops! Page Not Found</h1>
-          <div className={styles404.imgwrapper}>
-            <img
-              src="404.webp"
-              alt="404 image"
-              layout="fill"
-              objectFit="contain"
-            />
-          </div>
-        </div>
-      </div>
-    );
+    return <NotFound />;
   }
 
   return (
     <div>
       <Head>
-        <title>{cardData.title}</title>
+        <title>{urlParams.urlTitle}</title>
         <meta name="description" content="Fetch URL Card" />
-        <link rel="icon" href="znz.png" />
+        <Icon />
       </Head>
 
       <main>
-        <a
-          className={styles.a}
-          href={cardData.url}
-          onClick={() => handleClick(cardData.url)}
-        >
-          <div className={styles.wxcard}>
-            <div className={styles.wxcardleft}>
-              <div
-                className={
-                  loading
-                    ? `${styles.wxcardtitle} ${styles.wxcardtitleloading}`
-                    : styles.wxcardleft
-                }
-              >
-                {loading ? (
-                  <>
-                    <Skeleton width={200} height={24} />
-                  </>
-                ) : (
-                  <h2 className={styles.h2}>{cardData.title}</h2>
-                )}
-              </div>
-              <div className={styles.wxcardcontent}>
-                <div className={styles.wxcarddescription}>
-                  {loading ? (
-                    <>
-                      <Skeleton count={7} />
-                    </>
-                  ) : (
-                    <p
-                      className={
-                        loading ? styles.p : `${styles.p} ${styles.ploading}`
-                      }
-                    >
-                      {cardData.description}
-                    </p>
-                  )}
-                </div>
-              </div>
-              {loading && (
-                <div
-                  className={
-                    loading
-                      ? `${styles.wxcardoverlay} ${styles.wxcardoverlayloading}`
-                      : styles.wxcardoverlay
-                  }
-                >
-                  <div className={styles.wxcardloader} />
-                </div>
-              )}
-            </div>
-            <div className={styles.wxcardright}>
-              <div className={styles.wxcardimg}>
-                {loading ? (
-                  <Skeleton width={90} height={90} />
-                ) : (
-                  <img
-                    className={`${styles.img} ${styles.wxcardright}`}
-                    src={cardData.firstImgSrc}
-                    alt="图片"
-                  />
-                )}
-              </div>
-            </div>
-          </div>
-        </a>
-
-        {/* 如果有多个网址，则显示到页面下方 */}
-        {cardData.urls && (
-          <div className={styles.urls}>
-            <h3></h3>
-            <ul className={""}>
-              {cardData.urls.map((url, index) => (
-                <li className={styles.urlsli} key={index}>
-                  <div className={""}>
-                    <a
-                      className={styles.urlsa}
-                      href={url}
-                      onClick={() => handleClick(url)}
-                    >
-                      {url}
-                    </a>
-                  </div>
-                </li>
-              ))}
-            </ul>
-          </div>
-        )}
+        <Card
+          url={urlParams.url}
+          urlTitle={urlParams.urlTitle}
+          yhParams={urlParams.yhParams}
+        />
+        {urlParams.yhParams && <YhList urls={urlParams.yhParams.split(",")} />}
       </main>
     </div>
   );

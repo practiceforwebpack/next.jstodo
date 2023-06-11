@@ -77,9 +77,7 @@ export default function Home() {
       event_label: decodedUrl,
       value: 1,
     }),
-      function () {
-        window.location.href = decodedUrl;
-      };
+      () => (window.location.href = decodedUrl);
   }
 
   if (error) {

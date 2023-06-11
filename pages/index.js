@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { useState, useEffect } from "react";
-import Card from "../components/Card";
-import YhList from "../components/YhList";
-import Icon from "../components/Icon";
-import NotFound from "../components/NotFound";
+import Card from "./Card";
+import YhList from "./YhList";
+import Icon from "./Icon";
+import NotFound from "./NotFound";
 
 export default function Home() {
   const [error, setError] = useState(false);

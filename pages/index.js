@@ -4,7 +4,7 @@ import YhList from "../components/YhList";
 import Icon from "../components/Icon";
 import NotFound from "../components/NotFound";
 import useDataFromLocalStorage from "./useDataFromLocalStorage";
-
+//
 export default function Home() {
   const urlParamsTmp = new URLSearchParams(
     process.browser ? window.location.search : ""

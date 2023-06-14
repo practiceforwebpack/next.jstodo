@@ -7,7 +7,6 @@ import NotFound from "../components/NotFound";
 
 export default function Home() {
   const [error, setError] = useState(false);
-  const [urlParams, setUrlParams] = useState({});
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
 

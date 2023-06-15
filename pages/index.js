@@ -6,10 +6,12 @@ import NotFound from "../components/NotFound";
 import useDataFromLocalStrong from "../hooks/useDataFromLocalStrong";
 
 export default function Home() {
-  const urlParamsTmp = new URLSearchParams(window.location.search);
-  const url = urlParamsTmp.get("url");
-  const title = urlParamsTmp.get("title");
-  const yhParams = urlParamsTmp.get("yh");
+  const urlParamsTmp =
+    typeof window !== "undefined" &&
+    new URLSearchParams(window.location.search);
+  const url = urlParamsTmp && urlParamsTmp.get("url");
+  const title = urlParamsTmp && urlParamsTmp.get("title");
+  const yhParams = urlParamsTmp && urlParamsTmp.get("yh");
 
   const { cardData, loading, error } = useDataFromLocalStrong(
     url,

@@ -1,4 +1,12 @@
-export const initGA = () => {
+declare global {
+  interface Window {
+    gtag?: any;
+  }
+}
+
+const GA_TRACKING_ID = "YOUR_GA_TRACKING_ID";
+
+export const initGA = (): void => {
   if (!GA_TRACKING_ID) {
     console.error("GA tracking ID is missing!");
     return;
@@ -13,7 +21,7 @@ export const initGA = () => {
   window.gtag("config", GA_TRACKING_ID);
 };
 
-export const pageview = (url) => {
+export const pageview = (url: string): void => {
   if (!GA_TRACKING_ID) {
     console.error("GA tracking ID is missing!");
     return;
@@ -29,7 +37,14 @@ export const pageview = (url) => {
   });
 };
 
-export const event = ({ action, category, label, value }) => {
+interface GAEvent {
+  action: string;
+  category?: string;
+  label?: string;
+  value?: number;
+}
+
+export const event = ({ action, category, label, value }: GAEvent): void => {
   if (!GA_TRACKING_ID) {
     console.error("GA tracking ID is missing!");
     return;

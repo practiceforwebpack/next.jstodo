@@ -1,3 +1,8 @@
+declare global {
+  interface Window {
+    gtag?: any;
+  }
+}
 const GA_TRACKING_ID = "YOUR_GA_TRACKING_ID";
 
 export const initGA = (): void => {

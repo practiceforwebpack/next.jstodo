@@ -23,8 +23,8 @@
       "@/*": ["./src/*"]
     }
   },
-  
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","typing.d.ts"],
+
+  "include": ["next-env.d.ts","pages/", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts","pages/typing.d.ts"],
   "exclude": ["node_modules"]
 }
 // 27

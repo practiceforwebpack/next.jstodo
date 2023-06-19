@@ -1,4 +1,4 @@
-const GA_TRACKING_ID = "YOUR_GA_TRACKING_ID";
+const GA_TRACKING_ID = "G-43HNXJP55G";
 
 export const initGA = (): void => {
   if (!GA_TRACKING_ID) {

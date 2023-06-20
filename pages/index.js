@@ -5,23 +5,13 @@ import Icon from "../components/Icon";
 import NotFound from "../components/NotFound";
 import useDataFromLocalStrong from "../hooks/useDataFromLocalStrong";
 
-const getHeadTags = (cardData) => {
-  return (
-    <Head>
-      <title>{cardData.title}</title>
-      <meta name="description" content="Fetch URL Card" />
-      <Icon />
-    </Head>
-  );
-};
-
-const Home = () => {
+export default function Home() {
   const urlParamsTmp =
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search);
-  const url = urlParamsTmp?.get("url");
-  const title = urlParamsTmp?.get("title");
-  const yhParams = urlParamsTmp?.get("yh");
+  const url = urlParamsTmp && urlParamsTmp.get("url");
+  const title = urlParamsTmp && urlParamsTmp.get("title");
+  const yhParams = urlParamsTmp && urlParamsTmp.get("yh");
 
   const { cardData, loading, error } = useDataFromLocalStrong(
     url,
@@ -34,14 +24,17 @@ const Home = () => {
   }
 
   return (
-    <>
-      {getHeadTags(cardData)}
+    <div>
+      <Head>
+        <title>{cardData.title}</title>
+        <meta name="description" content="Fetch URL Card" />
+        <Icon />
+      </Head>
+
       <main>
         <Card cardData={cardData} loading={loading} />
         {cardData.urls && <YhList urls={cardData.urls} />}
       </main>
-    </>
+    </div>
   );
-};
-
-export default Home;
+}

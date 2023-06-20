@@ -8,8 +8,8 @@ export default async function handler(req, res) {
   };
 
   try {
-    let response = await fetch(new Request(url, requestOptions));
-    let finalUrl = response.url;
+    const response = await fetch(new Request(url, requestOptions));
+    const finalUrl = response.url;
     if (url !== finalUrl) {
       console.log(`Redirected to: ${finalUrl}`);
     }
@@ -20,25 +20,25 @@ export default async function handler(req, res) {
     const description =
       root.querySelector("meta[name='description']")?.getAttribute("content") ||
       "";
-    const firstImg = root.querySelector("main img");
-    const firstImgSrc = firstImg ? firstImg.getAttribute("src") : "default.png";
+    const firstImgSrc =
+      root.querySelector("main img")?.getAttribute("src") || "default.png";
 
-    res.json({ title, description, firstImgSrc, url: finalUrl });
-    console.log(
-      `JSON response: ${JSON.stringify({
-        title,
-        description,
-        firstImgSrc,
-        url: finalUrl,
-      })}`
-    );
-  } catch (e) {
-    console.error(`Failed to fetch ${url}: ${e.message}`, e);
-    res.json({
+    const jsonResponse = {
+      title,
+      description,
+      firstImgSrc,
+      url: finalUrl,
+    };
+    res.json(jsonResponse);
+    console.log(`JSON response: ${JSON.stringify(jsonResponse)}`);
+  } catch (error) {
+    console.error(`Failed to fetch ${url}: ${error.message}`, error);
+    const jsonResponse = {
       title: "Default Title",
       description: "",
       firstImgSrc: "default.png",
       url,
-    });
+    };
+    res.json(jsonResponse);
   }
 }

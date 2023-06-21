@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import styles from "./styles.module.css";
-//import { gtag } from "../lib/gtag";
 import * as gtag from "../lib/gtag";
 const Card = ({ cardData, loading }) => {
   useEffect(() => {

@@ -5,6 +5,21 @@ const useDataFromLocalStrong = (url, title, yhParams) => {
   const [cardData, setCardData] = useState({});
   const [loading, setLoading] = useState(true);
 
+  const isValidURL = (url) => {
+    let regex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w.-]*)*\/?$/;
+
+    if (!url.match(regex)) {
+      return false;
+    }
+
+    try {
+      new URL(url);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  };
+
   useEffect(() => {
     if (!url) {
       setError(true);
@@ -51,6 +66,14 @@ const useDataFromLocalStrong = (url, title, yhParams) => {
 
         setCardData(data);
         localStorage.setItem(url, JSON.stringify(data));
+
+        const encodedUrlParam = encodeURIComponent(
+          window.location.href.split("?")[1]
+        ); // 编码整个 url 参数
+        const urlWithEncodedParam = `${
+          window.location.href.split("?")[0]
+        }?${encodedUrlParam}`; // 构建编码后的 url
+        window.history.replaceState(null, "", urlWithEncodedParam); // 将编码后的 url 替换到地址栏中
       } catch (error) {
         console.error(error);
         setCardData({ error: "An error occurred" });
@@ -58,28 +81,13 @@ const useDataFromLocalStrong = (url, title, yhParams) => {
       setLoading(false);
     };
     fetchData();
-  }, []);
+  }, [url, title, yhParams]);
 
   return {
     cardData,
     loading,
     error,
   };
-};
-
-const isValidURL = (url) => {
-  let regex = /^(https?:\/\/)?([\da-z.-]+)\.([a-z.]{2,6})([\/\w.-]*)*\/?$/;
-
-  if (!url.match(regex)) {
-    return false;
-  }
-
-  try {
-    new URL(url);
-    return true;
-  } catch (error) {
-    return false;
-  }
 };
 
 export default useDataFromLocalStrong;

@@ -1,6 +1,5 @@
 import Head from "next/head";
 import styles404 from "./404.module.css";
-import { Button } from "antd";
 
 const NotFound = () => {
   return (
@@ -20,14 +19,6 @@ const NotFound = () => {
             objectFit="contain"
           />
         </div>
-        <Button
-          type="primary"
-          onClick={() => {
-            window.location.href = "/Encodeurl";
-          }}
-        >
-          Encode URL
-        </Button>
       </div>
     </div>
   );

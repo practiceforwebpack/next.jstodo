@@ -4,6 +4,7 @@ import YhList from "../components/YhList";
 import Icon from "../components/Icon";
 import NotFound from "../components/NotFound";
 import useDataFromLocalStrong from "../hooks/useDataFromLocalStrong";
+import GenUrl from "../components/GenUrl";
 export default function Home() {
   const urlParamsTmp =
     typeof window !== "undefined" &&
@@ -19,7 +20,7 @@ export default function Home() {
   );
 
   if (error) {
-    return <NotFound />;
+    return <GenUrl />;
   }
 
   return (

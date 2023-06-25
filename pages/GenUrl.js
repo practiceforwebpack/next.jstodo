@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Input, Form, Button } from "antd";
+import { Input, Form, Button, Space } from "antd";
 import { useRouter } from "next/router";
 
 const GenUrl = () => {
@@ -25,7 +25,7 @@ const GenUrl = () => {
     const encodedAdditionalUrls = additionalUrls
       .map((additionalUrl) => encodeURIComponent(additionalUrl))
       .join(",");
-    const encodedUrl = `http://localhost:3000/?url=${encodeURIComponent(
+    const encodedUrl = `https://previewlink.chentaotie.com/?url=${encodeURIComponent(
       url
     )}&yh=${encodedAdditionalUrls}`;
     setEncodedUrl(encodedUrl);
@@ -67,8 +67,10 @@ const GenUrl = () => {
             </div>
           </Form.Item>
         ))}
-        <Button onClick={handleAddUrl}>添加优惠券链接</Button>
-        <Button htmlType="submit">提交</Button>
+        <Space>
+          <Button onClick={handleAddUrl}>添加优惠券链接</Button>
+          <Button htmlType="submit">提交</Button>
+        </Space>
       </form>
       {encodedUrl && (
         <Form style={{ marginTop: "20px" }} initialValues={{ encodedUrl }}>

@@ -14,6 +14,12 @@ const GenUrl = () => {
     setAdditionalUrls(newUrls);
   };
 
+  const handleDeleteUrl = (index) => {
+    const newUrls = [...additionalUrls];
+    newUrls.splice(index, 1);
+    setAdditionalUrls(newUrls);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const encodedAdditionalUrls = additionalUrls
@@ -33,18 +39,33 @@ const GenUrl = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Input
-          placeholder="请输入URL"
-          onChange={(e) => setUrl(e.target.value)}
-          value={url}
-        />
-        {additionalUrls.map((additionalUrl, index) => (
+        <Form.Item label="URL" name="url">
           <Input
-            key={index}
-            placeholder="请输入YH-URL"
-            value={additionalUrl}
-            onChange={(e) => handleAdditionalUrlChange(index, e.target.value)}
+            placeholder="请输入URL"
+            onChange={(e) => setUrl(e.target.value)}
+            value={url}
           />
+        </Form.Item>
+        {additionalUrls.map((additionalUrl, index) => (
+          <Form.Item
+            key={index}
+            label={`YH-URL ${index + 1}`}
+            name={`yhurl-${index}`}
+          >
+            <div style={{ display: "flex" }}>
+              <Input
+                placeholder="请输入YH-URL"
+                value={additionalUrl}
+                onChange={(e) =>
+                  handleAdditionalUrlChange(index, e.target.value)
+                }
+                style={{ marginRight: "10px" }}
+              />
+              <Button onClick={() => handleDeleteUrl(index)} danger>
+                删除
+              </Button>
+            </div>
+          </Form.Item>
         ))}
         <Button onClick={handleAddUrl}>添加URL</Button>
         <Button htmlType="submit">提交</Button>

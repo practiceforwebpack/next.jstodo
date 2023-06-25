@@ -39,9 +39,9 @@ const GenUrl = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Form.Item label="URL" name="url">
+        <Form.Item label="商品链接" name="url">
           <Input
-            placeholder="请输入URL"
+            placeholder="请输入商品链接"
             onChange={(e) => setUrl(e.target.value)}
             value={url}
           />
@@ -49,12 +49,12 @@ const GenUrl = () => {
         {additionalUrls.map((additionalUrl, index) => (
           <Form.Item
             key={index}
-            label={`YH-URL ${index + 1}`}
+            label={`优惠券链接 ${index + 1}`}
             name={`yhurl-${index}`}
           >
             <div style={{ display: "flex" }}>
               <Input
-                placeholder="请输入YH-URL"
+                placeholder="请输入优惠券链接"
                 value={additionalUrl}
                 onChange={(e) =>
                   handleAdditionalUrlChange(index, e.target.value)
@@ -67,12 +67,12 @@ const GenUrl = () => {
             </div>
           </Form.Item>
         ))}
-        <Button onClick={handleAddUrl}>添加URL</Button>
+        <Button onClick={handleAddUrl}>添加优惠券链接</Button>
         <Button htmlType="submit">提交</Button>
       </form>
       {encodedUrl && (
         <Form style={{ marginTop: "20px" }} initialValues={{ encodedUrl }}>
-          <Form.Item label="编码后URL" name="encodedUrl">
+          <Form.Item label="编码结果" name="encodedUrl">
             <input
               type="text"
               value={encodedUrl}

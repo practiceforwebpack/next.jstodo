@@ -39,13 +39,15 @@ const GenUrl = () => {
   return (
     <div>
       <form onSubmit={handleSubmit}>
-        <Form.Item label="商品链接" name="url">
-          <Input
-            placeholder="请输入商品链接"
-            onChange={(e) => setUrl(e.target.value)}
-            value={url}
-          />
-        </Form.Item>
+        <Form>
+          <Form.Item label="商品链接" name="url">
+            <Input
+              placeholder="请输入商品链接"
+              onChange={(e) => setUrl(e.target.value)}
+              value={url}
+            />
+          </Form.Item>
+        </Form>
         {additionalUrls.map((additionalUrl, index) => (
           <Form.Item
             key={index}

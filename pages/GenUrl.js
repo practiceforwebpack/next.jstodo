@@ -52,6 +52,10 @@ const GenUrl = () => {
           label="商品链接"
           name="url"
           rules={[{ required: true, message: "请输入商品链接！" }]}
+          layout={{
+            labelCol: { span: 4 },
+            wrapperCol: { span: 20 },
+          }}
         >
           <Input
             placeholder="请输入商品链接"
@@ -64,6 +68,10 @@ const GenUrl = () => {
             key={index}
             label={`优惠券链接 ${index + 1}`}
             name={`yhurl-${index}`}
+            layout={{
+              labelCol: { span: 4 },
+              wrapperCol: { span: 20 },
+            }}
           >
             <div style={{ display: "flex" }}>
               <Input

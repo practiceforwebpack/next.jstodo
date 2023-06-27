@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Input, Form, Button, Space } from "antd";
+import { Input, Form, Button, Space, message } from "antd";
 import { useRouter } from "next/router";
 
 const GenUrl = () => {
@@ -20,15 +20,20 @@ const GenUrl = () => {
     setAdditionalUrls(newUrls);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (values) => {
+    const submitUrl = values.url;
     const encodedAdditionalUrls = additionalUrls
       .map((additionalUrl) => encodeURIComponent(additionalUrl))
       .join(",");
     const encodedUrl = `https://previewlink.chentaotie.com/?url=${encodeURIComponent(
-      url
+      submitUrl
     )}&yh=${encodedAdditionalUrls}`;
     setEncodedUrl(encodedUrl);
+    message.success("成功生成链接！");
+  };
+
+  const handleFailedSubmit = () => {
+    message.error("生成链接失败，请检查您的输入！");
   };
 
   const handleAddUrl = (e) => {
@@ -38,8 +43,16 @@ const GenUrl = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}>
-        <Form.Item label="商品链接" name="url">
+      <Form
+        name="my-form"
+        onFinish={handleSubmit}
+        onFinishFailed={handleFailedSubmit}
+      >
+        <Form.Item
+          label="商品链接"
+          name="url"
+          rules={[{ required: true, message: "请输入商品链接！" }]}
+        >
           <Input
             placeholder="请输入商品链接"
             onChange={(e) => setUrl(e.target.value)}
@@ -71,7 +84,8 @@ const GenUrl = () => {
           <Button onClick={handleAddUrl}>添加优惠券链接</Button>
           <Button htmlType="submit">提交</Button>
         </Space>
-      </form>
+      </Form>
+
       {encodedUrl && (
         <Form style={{ marginTop: "20px" }} initialValues={{ encodedUrl }}>
           <Form.Item label="编码结果" name="encodedUrl">

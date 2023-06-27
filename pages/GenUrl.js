@@ -47,15 +47,14 @@ const GenUrl = () => {
         name="my-form"
         onFinish={handleSubmit}
         onFinishFailed={handleFailedSubmit}
+        layout="vertical"
       >
         <Form.Item
           label="商品链接"
           name="url"
           rules={[{ required: true, message: "请输入商品链接！" }]}
-          layout={{
-            labelCol: { span: 4 },
-            wrapperCol: { span: 20 },
-          }}
+          labelCol={{ span: 6 }}
+          wrapperCol={{ span: 18 }}
         >
           <Input
             placeholder="请输入商品链接"
@@ -68,10 +67,8 @@ const GenUrl = () => {
             key={index}
             label={`优惠券链接 ${index + 1}`}
             name={`yhurl-${index}`}
-            layout={{
-              labelCol: { span: 4 },
-              wrapperCol: { span: 20 },
-            }}
+            labelCol={{ span: 6 }}
+            wrapperCol={{ span: 18 }}
           >
             <div style={{ display: "flex" }}>
               <Input
@@ -88,10 +85,12 @@ const GenUrl = () => {
             </div>
           </Form.Item>
         ))}
-        <Space>
-          <Button onClick={handleAddUrl}>添加优惠券链接</Button>
-          <Button htmlType="submit">提交</Button>
-        </Space>
+        <Form.Item wrapperCol={{ offset: 6 }}>
+          <Space>
+            <Button onClick={handleAddUrl}>添加优惠券链接</Button>
+            <Button htmlType="submit">提交</Button>
+          </Space>
+        </Form.Item>
       </Form>
 
       {encodedUrl && (

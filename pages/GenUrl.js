@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Input, Form, Button, Space, message } from "antd";
+import { Input, Form, Button, message } from "antd";
 import { useRouter } from "next/router";
 
 const GenUrl = () => {
@@ -36,8 +36,7 @@ const GenUrl = () => {
     message.error("生成链接失败，请检查您的输入！");
   };
 
-  const handleAddUrl = (e) => {
-    e.preventDefault();
+  const handleAddUrl = () => {
     setAdditionalUrls([...additionalUrls, ""]);
   };
 
@@ -62,34 +61,39 @@ const GenUrl = () => {
             value={url}
           />
         </Form.Item>
-        {additionalUrls.map((additionalUrl, index) => (
-          <Form.Item
-            key={index}
-            label={`优惠券链接 ${index + 1}`}
-            name={`yhurl-${index}`}
-            labelCol={{ span: 6 }}
-            wrapperCol={{ span: 18 }}
-          >
-            <div style={{ display: "flex" }}>
-              <Input
-                placeholder="请输入优惠券链接"
-                value={additionalUrl}
-                onChange={(e) =>
-                  handleAdditionalUrlChange(index, e.target.value)
-                }
-                style={{ marginRight: "10px" }}
-              />
-              <Button onClick={() => handleDeleteUrl(index)} danger>
-                删除
-              </Button>
-            </div>
-          </Form.Item>
-        ))}
-        <Form.Item wrapperCol={{ offset: 6 }}>
-          <Space>
-            <Button onClick={handleAddUrl}>添加优惠券链接</Button>
-            <Button htmlType="submit">提交</Button>
-          </Space>
+        <Form.List name="additionalUrls">
+          {(fields, { add, remove }) => (
+            <>
+              {fields.map((field, index) => (
+                <Form.Item
+                  key={field.key}
+                  label={`优惠券链接 ${index + 1}`}
+                  labelCol={{ span: 6 }}
+                  wrapperCol={{ span: 18 }}
+                >
+                  <div style={{ display: "flex" }}>
+                    <Input
+                      placeholder="请输入优惠券链接"
+                      value={additionalUrls[index]}
+                      onChange={(e) =>
+                        handleAdditionalUrlChange(index, e.target.value)
+                      }
+                      style={{ marginRight: "10px" }}
+                    />
+                    <Button onClick={() => remove(field.name)} danger>
+                      删除
+                    </Button>
+                  </div>
+                </Form.Item>
+              ))}
+              <Form.Item wrapperCol={{ offset: 1 }}>
+                <Button onClick={() => add()}>添加优惠券链接</Button>
+              </Form.Item>
+            </>
+          )}
+        </Form.List>
+        <Form.Item wrapperCol={{ offset: 1 }}>
+          <Button htmlType="submit">提交</Button>
         </Form.Item>
       </Form>
 
@@ -100,7 +104,7 @@ const GenUrl = () => {
               type="text"
               value={encodedUrl}
               readOnly
-              style={{ width: "100%" }}
+              style={{ width: "74%" }}
             />
           </Form.Item>
         </Form>

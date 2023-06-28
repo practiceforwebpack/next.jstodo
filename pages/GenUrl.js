@@ -93,7 +93,9 @@ const GenUrl = () => {
           )}
         </Form.List>
         <Form.Item wrapperCol={{ offset: 1 }}>
-          <Button htmlType="submit">提交</Button>
+          <Button type="primary" htmlType="submit">
+            提交
+          </Button>
         </Form.Item>
       </Form>
 

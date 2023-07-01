@@ -109,7 +109,7 @@ const GenUrl = () => {
               type="text"
               value={encodedUrl}
               readOnly
-              style={{ width: "74%" }}
+              style={{ width: "73%" }}
             />
           </Form.Item>
         </Form>

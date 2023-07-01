@@ -70,6 +70,7 @@ const GenUrl = () => {
                 <Form.Item
                   key={field.key}
                   label={`优惠券链接 ${index + 1}`}
+                  name={["additionalUrls", index]} // 添加这行代码
                   labelCol={{ span: 6 }}
                   wrapperCol={{ span: 18 }}
                 >

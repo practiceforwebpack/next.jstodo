@@ -5,8 +5,8 @@ import { useRouter } from "next/router";
 const GenUrl = () => {
   const router = useRouter();
   const [url, setUrl] = useState("");
+  const [encodedUrl, setEncodedUrl] = useState("");
   const [additionalUrls, setAdditionalUrls] = useState([]);
-  const [submitted, setSubmitted] = useState(false);
 
   const handleAdditionalUrlChange = (index, value) => {
     const newUrls = [...additionalUrls];
@@ -21,9 +21,14 @@ const GenUrl = () => {
   };
 
   const handleSubmit = (values) => {
-    setSubmitted(true);
-    setUrl("");
-    setAdditionalUrls([]);
+    const submitUrl = values.url;
+    const encodedAdditionalUrls = additionalUrls
+      .map((additionalUrl) => encodeURIComponent(additionalUrl))
+      .join(",");
+    const encodedUrl = `https://previewlink.chentaotie.com/?url=${encodeURIComponent(
+      submitUrl
+    )}&yh=${encodedAdditionalUrls}`;
+    setEncodedUrl(encodedUrl);
     message.success("成功生成链接！");
   };
 
@@ -34,13 +39,6 @@ const GenUrl = () => {
   const handleAddUrl = () => {
     setAdditionalUrls([...additionalUrls, ""]);
   };
-
-  const encodedAdditionalUrls = additionalUrls
-    .map((additionalUrl) => encodeURIComponent(additionalUrl))
-    .join(",");
-  const encodedUrl = `https://previewlink.chentaotie.com/?url=${encodeURIComponent(
-    url
-  )}&yh=${encodedAdditionalUrls}`;
 
   return (
     <div>
@@ -70,7 +68,6 @@ const GenUrl = () => {
                 <Form.Item
                   key={field.key}
                   label={`优惠券链接 ${index + 1}`}
-                  name={["additionalUrls", index]} // 添加这行代码
                   labelCol={{ span: 6 }}
                   wrapperCol={{ span: 18 }}
                 >
@@ -102,7 +99,7 @@ const GenUrl = () => {
         </Form.Item>
       </Form>
 
-      {submitted && (
+      {encodedUrl && (
         <Form style={{ marginTop: "20px" }} initialValues={{ encodedUrl }}>
           <Form.Item label="编码结果" name="encodedUrl">
             <input

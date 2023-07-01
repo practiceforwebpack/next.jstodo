@@ -1,9 +1,7 @@
 import { useState } from "react";
 import { Input, Form, Button, message } from "antd";
-import { useRouter } from "next/router";
 
 const GenUrl = () => {
-  const router = useRouter();
   const [url, setUrl] = useState("");
   const [encodedUrl, setEncodedUrl] = useState("");
   const [additionalUrls, setAdditionalUrls] = useState([]);
@@ -29,6 +27,11 @@ const GenUrl = () => {
       submitUrl
     )}&yh=${encodedAdditionalUrls}`;
     setEncodedUrl(encodedUrl);
+
+    // Clear input fields
+    setUrl("");
+    setAdditionalUrls([]);
+
     message.success("成功生成链接！");
   };
 

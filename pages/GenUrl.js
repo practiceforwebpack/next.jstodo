@@ -26,6 +26,18 @@ const GenUrl = () => {
     const encodedUrl = `https://previewlink.chentaotie.com/?url=${encodeURIComponent(
       submitUrl
     )}&yh=${encodedAdditionalUrls}`;
+
+    // Validating URLs
+    const isValidUrl = validateUrl(submitUrl);
+    const areAdditionalUrlsValid = additionalUrls.every((url) =>
+      validateUrl(url)
+    );
+
+    if (!isValidUrl || !areAdditionalUrlsValid) {
+      handleFailedSubmit();
+      return;
+    }
+
     setEncodedUrl(encodedUrl);
 
     // Clear input fields
@@ -43,8 +55,13 @@ const GenUrl = () => {
     setAdditionalUrls([...additionalUrls, ""]);
   };
 
+  const validateUrl = (url) => {
+    const regex = /^(?:\w+:)?\/\/([^\s.]+\.\S{2}|localhost[:?\d]*)\S*$/;
+    return regex.test(url);
+  };
+
   return (
-    <div>
+    <div style={{ maxWidth: "600px", margin: "0 auto" }}>
       <Form
         name="my-form"
         onFinish={handleSubmit}
@@ -54,7 +71,15 @@ const GenUrl = () => {
         <Form.Item
           label="商品链接"
           name="url"
-          rules={[{ required: true, message: "请输入商品链接！" }]}
+          rules={[
+            { required: true, message: "请输入商品链接！" },
+            {
+              validator: (_, value) =>
+                validateUrl(value)
+                  ? Promise.resolve()
+                  : Promise.reject("请输入有效的URL"),
+            },
+          ]}
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
@@ -82,6 +107,14 @@ const GenUrl = () => {
                         handleAdditionalUrlChange(index, e.target.value)
                       }
                       style={{ marginRight: "10px" }}
+                      rules={[
+                        {
+                          validator: (_, value) =>
+                            validateUrl(value)
+                              ? Promise.resolve()
+                              : Promise.reject("请输入有效的URL"),
+                        },
+                      ]}
                     />
                     <Button onClick={() => remove(field.name)} danger>
                       删除
@@ -89,13 +122,19 @@ const GenUrl = () => {
                   </div>
                 </Form.Item>
               ))}
-              <Form.Item wrapperCol={{ offset: 1 }}>
-                <Button onClick={() => add()}>添加优惠券链接</Button>
+              <Form.Item wrapperCol={{ offset: 0, span: 18 }}>
+                <Button
+                  onClick={() => add()}
+                  block
+                  style={{ border: "1px dashed rgba(128, 128, 128, 0.4)" }}
+                >
+                  添加一行数据
+                </Button>
               </Form.Item>
             </>
           )}
         </Form.List>
-        <Form.Item wrapperCol={{ offset: 1 }}>
+        <Form.Item wrapperCol={{ offset: 8, span: 6 }}>
           <Button type="primary" htmlType="submit">
             提交
           </Button>

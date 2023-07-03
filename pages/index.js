@@ -4,20 +4,22 @@ import YhList from "../components/YhList";
 import Icon from "../components/Icon";
 import NotFound from "../components/NotFound";
 import useDataFromLocalStrong from "../hooks/useDataFromLocalStrong";
+
 export default function Home() {
   const urlParamsTmp =
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search);
   const url = urlParamsTmp && urlParamsTmp.get("url");
+  console.log(url);
   const title = urlParamsTmp && urlParamsTmp.get("title");
+  console.log(title);
   const yhParams = urlParamsTmp && urlParamsTmp.get("yh");
-
+  console.log(yhParams);
   const { cardData, loading, error } = useDataFromLocalStrong(
     url,
     title,
     yhParams
   );
-
   if (error) {
     return <NotFound />;
   }

@@ -10,16 +10,17 @@ export default function Home() {
     typeof window !== "undefined" &&
     new URLSearchParams(window.location.search);
   const url = urlParamsTmp && urlParamsTmp.get("url");
-  console.log(url);
+
   const title = urlParamsTmp && urlParamsTmp.get("title");
-  console.log(title);
+
   const yhParams = urlParamsTmp && urlParamsTmp.get("yh");
-  console.log(yhParams);
+
   const { cardData, loading, error } = useDataFromLocalStrong(
     url,
     title,
     yhParams
   );
+  console.log(cardData);
   if (error) {
     return <NotFound />;
   }

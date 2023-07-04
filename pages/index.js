@@ -20,6 +20,7 @@ export default function Home() {
     title,
     yhParams
   );
+  console.log("123");
   console.log(cardData);
   if (error) {
     return <NotFound />;

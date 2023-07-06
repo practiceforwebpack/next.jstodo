@@ -33,6 +33,10 @@ const useDataFromLocalStrong = (url, title, yhParams) => {
       return;
     }
 
+    const encodedUrl = encodeURIComponent(url);
+    const encodedTitle = encodeURIComponent(title);
+    const decodedYhParams = decodeURIComponent(yhParams);
+
     let data = localStorage.getItem(url);
 
     if (data) {
@@ -45,9 +49,7 @@ const useDataFromLocalStrong = (url, title, yhParams) => {
       setLoading(true);
       try {
         const response = await fetch(
-          `/api/fetch-url?url=${encodeURIComponent(
-            url
-          )}&redirect=false&title=${encodeURIComponent(title)}`
+          `/api/fetch-url?url=${encodedUrl}&redirect=false&title=${encodedTitle}`
         );
         const data = await response.json();
         console.log(data);
@@ -57,13 +59,21 @@ const useDataFromLocalStrong = (url, title, yhParams) => {
           data.title = title;
         }
 
-        if (yhParams) {
-          const urls = yhParams.split(",");
+        if (decodedYhParams) {
+          const urls = decodedYhParams.split(",");
           data.urls = urls;
         }
 
         setCardData(data);
         localStorage.setItem(url, JSON.stringify(data));
+
+        const encodedUrlParam = encodeURIComponent(
+          window.location.href.split("?")[1]
+        ); // 编码整个 url 参数
+        const urlWithEncodedParam = `${
+          window.location.href.split("?")[0]
+        }?${encodedUrlParam}`; // 构建编码后的 url
+        window.history.replaceState(null, "", urlWithEncodedParam); // 将编码后的 url 替换到地址栏中
       } catch (error) {
         console.error(error);
         setCardData({ error: "An error occurred" });

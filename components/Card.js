@@ -10,10 +10,9 @@ const Card = ({ cardData, loading }) => {
   }, [cardData]);
 
   function handleClick(url) {
-    const decodedUrl = decodeURIComponent(url);
     gtag("event", "cardClick", {
       event_category: "cardClick",
-      event_label: decodedUrl,
+      event_label: url,
       value: 1,
     });
   }

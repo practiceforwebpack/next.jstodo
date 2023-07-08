@@ -104,15 +104,15 @@
   flex-direction: column;
 }
 
-.urls li {
-  left: 100px;
+.urlsli {
+  left: 1000px;
   display: flex;
   align-items: center;
   margin-bottom: 8px;
   
 }
 
-.urls a {
+.urlsa {
   text-align: left;
   padding: 10px;
   width: 100%;

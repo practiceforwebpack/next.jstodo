@@ -1,4 +1,3 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import Skeleton from "react-loading-skeleton";
 import { gtag } from "../lib/gtag";
@@ -21,21 +20,17 @@ const Card = ({ url, title, description, firstImgSrc, urls }) => {
     window.location.href = decodedUrl;
   }
 
+  useEffect(() => {
+    setLoading(false);
+  }, [title, description, firstImgSrc]);
+
   return (
     <a className={styles.a} href={url} onClick={() => handleClick(url)}>
       <div className={styles.wxcard}>
         <div className={styles.wxcardleft}>
-          <div
-            className={
-              loading
-                ? `${styles.wxcardtitle} ${styles.wxcardtitleloading}`
-                : styles.wxcardleft
-            }
-          >
+          <div className={styles.wxcardtitle}>
             {loading ? (
-              <>
-                <Skeleton width={200} height={24} />
-              </>
+              <Skeleton width={200} height={24} />
             ) : (
               <h2 className={styles.h2}>{title}</h2>
             )}
@@ -43,28 +38,14 @@ const Card = ({ url, title, description, firstImgSrc, urls }) => {
           <div className={styles.wxcardcontent}>
             <div className={styles.wxcarddescription}>
               {loading ? (
-                <>
-                  <Skeleton count={7} />
-                </>
+                <Skeleton count={7} />
               ) : (
-                <p
-                  className={
-                    loading ? styles.p : `${styles.p} ${styles.ploading}`
-                  }
-                >
-                  {description}
-                </p>
+                <p className={styles.p}>{description}</p>
               )}
             </div>
           </div>
           {loading && (
-            <div
-              className={
-                loading
-                  ? `${styles.wxcardoverlay} ${styles.wxcardoverlayloading}`
-                  : styles.wxcardoverlay
-              }
-            >
+            <div className={styles.wxcardoverlay}>
               <div className={styles.wxcardloader} />
             </div>
           )}
@@ -74,11 +55,7 @@ const Card = ({ url, title, description, firstImgSrc, urls }) => {
             {loading ? (
               <Skeleton width={90} height={90} />
             ) : (
-              <img
-                className={`${styles.img} ${styles.wxcardright}`}
-                src={firstImgSrc}
-                alt="图片"
-              />
+              <img className={styles.img} src={firstImgSrc} alt="图片" />
             )}
           </div>
         </div>

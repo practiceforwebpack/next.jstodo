@@ -34,3 +34,9 @@
     height: 200px;
   }
 }
+.align-left ul {
+  padding-left: 0;
+}
+.align-left li {
+  list-style: none;
+}

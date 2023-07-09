@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Input, Form, Button, message, List, Space } from "antd";
+import { Input, Form, Button, message, Table } from "antd";
 
 const GenUrl = () => {
   const [url, setUrl] = useState("");
@@ -43,11 +43,11 @@ const GenUrl = () => {
       return;
     }
 
+    setUrl(submitUrl);
     setEncodedUrl(encodedUrl);
     setEncodedUrls([...encodedUrls, encodedUrl]);
 
     // Clear input fields
-    setUrl("");
     setAdditionalUrls([]);
 
     message.success("成功生成链接！");
@@ -66,8 +66,61 @@ const GenUrl = () => {
     return regex.test(url);
   };
 
+  const columns = [
+    {
+      title: "商品链接",
+      dataIndex: "productUrl",
+      key: "productUrl",
+      render: (text) => (
+        <Input value={text} readOnly style={{ width: "100%" }} />
+      ),
+    },
+    {
+      title: "优惠券链接",
+      dataIndex: "couponUrls",
+      key: "couponUrls",
+      render: (text, record) => (
+        <div>
+          {text.map((couponUrl, index) => (
+            <div key={index} style={{ display: "flex" }}>
+              <Input value={couponUrl} readOnly style={{ width: "100%" }} />
+              <Button
+                style={{ marginLeft: "8px" }}
+                onClick={() => handleNavigate(couponUrl)}
+              >
+                跳转
+              </Button>
+            </div>
+          ))}
+        </div>
+      ),
+    },
+    {
+      title: "编码结果",
+      dataIndex: "encodedUrl",
+      key: "encodedUrl",
+      render: (text) => (
+        <div style={{ display: "flex" }}>
+          <Input value={text} readOnly style={{ width: "100%" }} />
+          <Button
+            style={{ marginLeft: "8px" }}
+            onClick={() => handleNavigate(text)}
+          >
+            跳转
+          </Button>
+        </div>
+      ),
+    },
+  ];
+
+  const data = encodedUrls.map((item, index) => ({
+    key: index,
+    productUrl: url,
+    couponUrls: additionalUrls,
+    encodedUrl: item,
+  }));
   return (
-    <div style={{ maxWidth: "600px", margin: "0 auto" }}>
+    <div style={{ maxWidth: "800px", margin: "0 auto" }}>
       <Form
         name="my-form"
         onFinish={handleSubmit}
@@ -141,34 +194,19 @@ const GenUrl = () => {
           )}
         </Form.List>
         <Form.Item wrapperCol={{ offset: 8, span: 6 }}>
-          <Button type="primary" htmlType="submit">
-            提交
+          <Button htmlType="submit" type="primary">
+            生成链接
           </Button>
         </Form.Item>
       </Form>
-
-      <List
-        style={{ marginTop: "20px", width: "75%" }}
-        header={<div>编码结果</div>}
-        bordered
-        dataSource={encodedUrls}
-        renderItem={(item) => (
-          <List.Item>
-            <Input
-              type="text"
-              value={item}
-              readOnly
-              style={{ width: "100%" }}
-            />
-            <Button
-              style={{ marginLeft: "8px" }}
-              onClick={() => handleNavigate(item)}
-            >
-              跳转
-            </Button>
-          </List.Item>
-        )}
-      />
+      {encodedUrls.length > 0 && (
+        <Table
+          columns={columns}
+          dataSource={data}
+          pagination={false}
+          style={{ marginTop: "20px" }}
+        />
+      )}
     </div>
   );
 };

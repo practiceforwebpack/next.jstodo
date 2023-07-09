@@ -84,12 +84,6 @@ const GenUrl = () => {
           {text.map((couponUrl, index) => (
             <div key={index} style={{ display: "flex" }}>
               <Input value={couponUrl} readOnly style={{ width: "100%" }} />
-              <Button
-                style={{ marginLeft: "8px" }}
-                onClick={() => handleNavigate(couponUrl)}
-              >
-                跳转
-              </Button>
             </div>
           ))}
         </div>

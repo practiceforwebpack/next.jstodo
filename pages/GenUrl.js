@@ -1,10 +1,11 @@
 import { useState } from "react";
-import { Input, Form, Button, message } from "antd";
+import { Input, Form, Button, message, List, Space } from "antd";
 
 const GenUrl = () => {
   const [url, setUrl] = useState("");
   const [encodedUrl, setEncodedUrl] = useState("");
   const [additionalUrls, setAdditionalUrls] = useState([]);
+  const [encodedUrls, setEncodedUrls] = useState([]);
 
   const handleAdditionalUrlChange = (index, value) => {
     const newUrls = [...additionalUrls];
@@ -16,6 +17,10 @@ const GenUrl = () => {
     const newUrls = [...additionalUrls];
     newUrls.splice(index, 1);
     setAdditionalUrls(newUrls);
+  };
+
+  const handleNavigate = (url) => {
+    window.location.href = url;
   };
 
   const handleSubmit = (values) => {
@@ -39,6 +44,7 @@ const GenUrl = () => {
     }
 
     setEncodedUrl(encodedUrl);
+    setEncodedUrls([...encodedUrls, encodedUrl]);
 
     // Clear input fields
     setUrl("");
@@ -141,18 +147,28 @@ const GenUrl = () => {
         </Form.Item>
       </Form>
 
-      {encodedUrl && (
-        <Form style={{ marginTop: "20px" }} initialValues={{ encodedUrl }}>
-          <Form.Item label="编码结果" name="encodedUrl">
-            <input
+      <List
+        style={{ marginTop: "20px", width: "75%" }}
+        header={<div>编码结果</div>}
+        bordered
+        dataSource={encodedUrls}
+        renderItem={(item) => (
+          <List.Item>
+            <Input
               type="text"
-              value={encodedUrl}
+              value={item}
               readOnly
-              style={{ width: "73%" }}
+              style={{ width: "100%" }}
             />
-          </Form.Item>
-        </Form>
-      )}
+            <Button
+              style={{ marginLeft: "8px" }}
+              onClick={() => handleNavigate(item)}
+            >
+              跳转
+            </Button>
+          </List.Item>
+        )}
+      />
     </div>
   );
 };

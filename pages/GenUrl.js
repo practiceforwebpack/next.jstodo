@@ -71,9 +71,6 @@ const GenUrl = () => {
       title: "商品链接",
       dataIndex: "productUrl",
       key: "productUrl",
-      render: (text) => (
-        <Input value={text} readOnly style={{ width: "100%" }} />
-      ),
     },
     {
       title: "优惠券链接",
@@ -82,9 +79,7 @@ const GenUrl = () => {
       render: (text, record) => (
         <div>
           {text.map((couponUrl, index) => (
-            <div key={index} style={{ display: "flex" }}>
-              <Input value={couponUrl} readOnly style={{ width: "100%" }} />
-            </div>
+            <div key={index}>{couponUrl}</div>
           ))}
         </div>
       ),
@@ -94,8 +89,8 @@ const GenUrl = () => {
       dataIndex: "encodedUrl",
       key: "encodedUrl",
       render: (text) => (
-        <div style={{ display: "flex" }}>
-          <Input value={text} readOnly style={{ width: "100%" }} />
+        <div>
+          {text}
           <Button
             style={{ marginLeft: "8px" }}
             onClick={() => handleNavigate(text)}
@@ -113,6 +108,7 @@ const GenUrl = () => {
     couponUrls: additionalUrls,
     encodedUrl: item,
   }));
+
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto" }}>
       <Form
@@ -198,7 +194,7 @@ const GenUrl = () => {
           columns={columns}
           dataSource={data}
           pagination={false}
-          style={{ marginTop: "20px" }}
+          scroll={{ y: 400 }}
         />
       )}
     </div>

@@ -8,18 +8,6 @@ const GenUrl = () => {
   const [encodedUrls, setEncodedUrls] = useState([]);
   const [tableData, setTableData] = useState([]);
 
-  const handleAdditionalUrlChange = (index, value) => {
-    const newUrls = [...additionalUrls];
-    newUrls[index] = value;
-    setAdditionalUrls(newUrls);
-  };
-
-  const handleDeleteUrl = (index) => {
-    const newUrls = [...additionalUrls];
-    newUrls.splice(index, 1);
-    setAdditionalUrls(newUrls);
-  };
-
   const handleNavigate = (url) => {
     window.location.href = url;
   };
@@ -72,10 +60,6 @@ const GenUrl = () => {
     message.error("生成链接失败，请检查您的输入！");
   };
 
-  const handleAddUrl = () => {
-    setAdditionalUrls([...additionalUrls, ""]);
-  };
-
   const handleUrlChange = (e) => {
     const value = e.target.value;
     setUrl(value);
@@ -87,7 +71,6 @@ const GenUrl = () => {
     newUrls[index] = value;
     setAdditionalUrls(newUrls);
   };
-
   const columns = [
     {
       title: "商品链接",
@@ -110,16 +93,17 @@ const GenUrl = () => {
       title: "编码结果",
       dataIndex: "encodedUrl",
       key: "encodedUrl",
-      render: (text) => (
-        <div>
-          {text}
-          <Button
-            style={{ marginLeft: "8px" }}
-            onClick={() => handleNavigate(text)}
-          >
-            跳转
-          </Button>
-        </div>
+    },
+    {
+      title: "操作",
+      key: "actions",
+      render: (text, record) => (
+        <Button
+          style={{ marginLeft: "8px" }}
+          onClick={() => handleNavigate(record.encodedUrl)}
+        >
+          跳转
+        </Button>
       ),
     },
   ];

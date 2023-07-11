@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Input, Form, Button, message, Table } from "antd";
+import { Input, Form, Button, message, Table, Space } from "antd";
 
 const GenUrl = () => {
   const [url, setUrl] = useState("");
@@ -65,6 +65,11 @@ const GenUrl = () => {
     setUrl(value);
   };
 
+  const handleDelete = (key) => {
+    const updatedTableData = tableData.filter((item) => item.key !== key);
+    setTableData(updatedTableData);
+  };
+
   const handleAdditionalUrl = (index, e) => {
     const value = e.target.value;
     const newUrls = [...additionalUrls];
@@ -76,7 +81,8 @@ const GenUrl = () => {
       title: "商品链接",
       dataIndex: "productUrl",
       key: "productUrl",
-      render: (text) => text || "——",
+      render: (text) => text || "-",
+      align: "center", // 设置标题居中对齐
     },
     {
       title: "优惠券链接",
@@ -92,27 +98,33 @@ const GenUrl = () => {
         >
           {text.length > 0
             ? text.map((couponUrl, index) => <div key={index}>{couponUrl}</div>)
-            : "——"}
+            : "-"}
         </div>
       ),
+      align: "center", // 设置标题居中对齐
     },
     {
       title: "编码结果",
       dataIndex: "encodedUrl",
       key: "encodedUrl",
-      render: (text) => text || "——",
+      render: (text) => text || "-",
+      align: "center", // 设置标题居中对齐
     },
     {
       title: "操作",
       key: "actions",
+      width: 100,
       render: (text, record) => (
-        <a
-          style={{ marginLeft: "8px" }}
-          onClick={() => handleNavigate(record.encodedUrl)}
-        >
-          跳转
-        </a>
+        <div>
+          <Space>
+            <a onClick={() => handleNavigate(record.encodedUrl)}>跳转</a>
+            <a onClick={() => handleDelete(record.key)} danger>
+              删除
+            </a>
+          </Space>
+        </div>
       ),
+      align: "center", // 设置标题居中对齐
     },
   ];
 

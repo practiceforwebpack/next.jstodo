@@ -76,16 +76,23 @@ const GenUrl = () => {
       title: "商品链接",
       dataIndex: "productUrl",
       key: "productUrl",
+      render: (text) => text || "——",
     },
     {
       title: "优惠券链接",
       dataIndex: "couponUrls",
       key: "couponUrls",
       render: (text, record) => (
-        <div>
-          {text.map((couponUrl, index) => (
-            <div key={index}>{couponUrl}</div>
-          ))}
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          {text.length > 0
+            ? text.map((couponUrl, index) => <div key={index}>{couponUrl}</div>)
+            : "——"}
         </div>
       ),
     },
@@ -93,17 +100,18 @@ const GenUrl = () => {
       title: "编码结果",
       dataIndex: "encodedUrl",
       key: "encodedUrl",
+      render: (text) => text || "——",
     },
     {
       title: "操作",
       key: "actions",
       render: (text, record) => (
-        <Button
+        <a
           style={{ marginLeft: "8px" }}
           onClick={() => handleNavigate(record.encodedUrl)}
         >
           跳转
-        </Button>
+        </a>
       ),
     },
   ];

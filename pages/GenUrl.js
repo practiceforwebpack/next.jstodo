@@ -6,6 +6,7 @@ const GenUrl = () => {
   const [encodedUrl, setEncodedUrl] = useState("");
   const [additionalUrls, setAdditionalUrls] = useState([]);
   const [encodedUrls, setEncodedUrls] = useState([]);
+  const [tableData, setTableData] = useState([]);
 
   const handleAdditionalUrlChange = (index, value) => {
     const newUrls = [...additionalUrls];
@@ -24,22 +25,21 @@ const GenUrl = () => {
   };
 
   const handleSubmit = (values) => {
-    const submitUrl = values.url;
-
-    // Validating URLs
-    const isValidUrl = validateUrl(submitUrl);
-    const areAdditionalUrlsValid = additionalUrls.every((url) =>
-      validateUrl(url)
-    );
-
-    if (!isValidUrl || !areAdditionalUrlsValid) {
-      handleFailedSubmit();
-      return;
+    let submitUrl = values.url;
+    if (submitUrl && !submitUrl.startsWith("https://")) {
+      submitUrl = "https://" + submitUrl;
     }
 
     let encodedAdditionalUrls = "";
-    if (additionalUrls.length > 0) {
-      encodedAdditionalUrls = additionalUrls
+    const modifiedAdditionalUrls = additionalUrls.map((additionalUrl) => {
+      if (additionalUrl && !additionalUrl.startsWith("https://")) {
+        return "https://" + additionalUrl;
+      }
+      return additionalUrl;
+    });
+
+    if (modifiedAdditionalUrls.length > 0) {
+      encodedAdditionalUrls = modifiedAdditionalUrls
         .map((additionalUrl) => encodeURIComponent(additionalUrl))
         .join(",");
       encodedAdditionalUrls = `&yh=${encodedAdditionalUrls}`;
@@ -49,9 +49,21 @@ const GenUrl = () => {
       submitUrl
     )}${encodedAdditionalUrls}`;
 
-    setUrl(submitUrl);
+    setUrl([""]);
+    setAdditionalUrls([]);
     setEncodedUrl(encodedUrl);
     setEncodedUrls([...encodedUrls, encodedUrl]);
+
+    const newTableData = [
+      ...tableData,
+      {
+        key: encodedUrl,
+        productUrl: submitUrl,
+        couponUrls: modifiedAdditionalUrls,
+        encodedUrl: encodedUrl,
+      },
+    ];
+    setTableData(newTableData);
 
     message.success("成功生成链接！");
   };
@@ -64,9 +76,16 @@ const GenUrl = () => {
     setAdditionalUrls([...additionalUrls, ""]);
   };
 
-  const validateUrl = (url) => {
-    const regex = /^(?:\w+:)?\/\/([^\s.]+\.\S{2}|localhost[:?\d]*)\S*$/;
-    return regex.test(url);
+  const handleUrlChange = (e) => {
+    const value = e.target.value;
+    setUrl(value);
+  };
+
+  const handleAdditionalUrl = (index, e) => {
+    const value = e.target.value;
+    const newUrls = [...additionalUrls];
+    newUrls[index] = value;
+    setAdditionalUrls(newUrls);
   };
 
   const columns = [
@@ -105,13 +124,6 @@ const GenUrl = () => {
     },
   ];
 
-  const data = encodedUrls.map((item, index) => ({
-    key: index,
-    productUrl: url,
-    couponUrls: additionalUrls,
-    encodedUrl: item,
-  }));
-
   return (
     <div style={{ maxWidth: "800px", margin: "0 auto" }}>
       <Form
@@ -123,21 +135,13 @@ const GenUrl = () => {
         <Form.Item
           label="商品链接"
           name="url"
-          rules={[
-            { required: true, message: "请输入商品链接！" },
-            {
-              validator: (_, value) =>
-                validateUrl(value)
-                  ? Promise.resolve()
-                  : Promise.reject("请输入有效的URL"),
-            },
-          ]}
+          rules={[{ required: true, message: "请输入商品链接！" }]}
           labelCol={{ span: 6 }}
           wrapperCol={{ span: 18 }}
         >
           <Input
             placeholder="请输入商品链接"
-            onChange={(e) => setUrl(e.target.value)}
+            onChange={handleUrlChange}
             value={url}
           />
         </Form.Item>
@@ -155,18 +159,8 @@ const GenUrl = () => {
                     <Input
                       placeholder="请输入优惠券链接"
                       value={additionalUrls[index]}
-                      onChange={(e) =>
-                        handleAdditionalUrlChange(index, e.target.value)
-                      }
+                      onChange={(e) => handleAdditionalUrl(index, e)}
                       style={{ marginRight: "10px" }}
-                      rules={[
-                        {
-                          validator: (_, value) =>
-                            validateUrl(value)
-                              ? Promise.resolve()
-                              : Promise.reject("请输入有效的URL"),
-                        },
-                      ]}
                     />
                     <Button onClick={() => remove(field.name)} danger>
                       删除
@@ -183,23 +177,22 @@ const GenUrl = () => {
                   添加一行数据
                 </Button>
               </Form.Item>
+              <Form.Item wrapperCol={{ offset: 6, span: 18 }}>
+                <Button type="primary" htmlType="submit">
+                  生成链接
+                </Button>
+              </Form.Item>
             </>
           )}
         </Form.List>
-        <Form.Item wrapperCol={{ offset: 8, span: 6 }}>
-          <Button htmlType="submit" type="primary">
-            生成链接
-          </Button>
-        </Form.Item>
       </Form>
-      {encodedUrls.length > 0 && (
-        <Table
-          columns={columns}
-          dataSource={data}
-          pagination={false}
-          scroll={{ y: 400 }}
-        />
-      )}
+
+      <Table
+        dataSource={tableData}
+        columns={columns}
+        pagination={false}
+        style={{ marginTop: "20px" }}
+      />
     </div>
   );
 };

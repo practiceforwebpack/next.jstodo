@@ -25,12 +25,6 @@ const GenUrl = () => {
 
   const handleSubmit = (values) => {
     const submitUrl = values.url;
-    const encodedAdditionalUrls = additionalUrls
-      .map((additionalUrl) => encodeURIComponent(additionalUrl))
-      .join(",");
-    const encodedUrl = `https://previewlink.chentaotie.com/?url=${encodeURIComponent(
-      submitUrl
-    )}&yh=${encodedAdditionalUrls}`;
 
     // Validating URLs
     const isValidUrl = validateUrl(submitUrl);
@@ -43,12 +37,21 @@ const GenUrl = () => {
       return;
     }
 
+    let encodedAdditionalUrls = "";
+    if (additionalUrls.length > 0) {
+      encodedAdditionalUrls = additionalUrls
+        .map((additionalUrl) => encodeURIComponent(additionalUrl))
+        .join(",");
+      encodedAdditionalUrls = `&yh=${encodedAdditionalUrls}`;
+    }
+
+    const encodedUrl = `https://previewlink.chentaotie.com/?url=${encodeURIComponent(
+      submitUrl
+    )}${encodedAdditionalUrls}`;
+
     setUrl(submitUrl);
     setEncodedUrl(encodedUrl);
     setEncodedUrls([...encodedUrls, encodedUrl]);
-
-    // Clear input fields
-    setAdditionalUrls([]);
 
     message.success("成功生成链接！");
   };

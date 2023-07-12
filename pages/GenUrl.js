@@ -81,8 +81,18 @@ const GenUrl = () => {
       title: "商品链接",
       dataIndex: "productUrl",
       key: "productUrl",
-      render: (text) => text || "-",
-      align: "center", // 设置标题居中对齐
+      render: (text) => (
+        <div
+          style={{
+            whiteSpace: "normal",
+            wordBreak: "break-word",
+          }}
+        >
+          {text || "-"}
+        </div>
+      ),
+      align: "center",
+      width: "25%",
     },
     {
       title: "优惠券链接",
@@ -92,8 +102,11 @@ const GenUrl = () => {
         <div
           style={{
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
+            whiteSpace: "normal",
+            wordBreak: "break-word",
           }}
         >
           {text.length > 0
@@ -101,19 +114,30 @@ const GenUrl = () => {
             : "-"}
         </div>
       ),
-      align: "center", // 设置标题居中对齐
+      align: "center",
+      width: "25%",
     },
     {
       title: "编码结果",
       dataIndex: "encodedUrl",
       key: "encodedUrl",
-      render: (text) => text || "-",
-      align: "center", // 设置标题居中对齐
+      render: (text) => (
+        <div
+          style={{
+            whiteSpace: "normal",
+            wordBreak: "break-word",
+          }}
+        >
+          {text || "-"}
+        </div>
+      ),
+      align: "center",
+      width: "35%",
     },
     {
       title: "操作",
       key: "actions",
-      width: 100,
+      width: "15%",
       render: (text, record) => (
         <div>
           <Space>
@@ -124,7 +148,7 @@ const GenUrl = () => {
           </Space>
         </div>
       ),
-      align: "center", // 设置标题居中对齐
+      align: "center",
     },
   ];
 
@@ -190,12 +214,11 @@ const GenUrl = () => {
           )}
         </Form.List>
       </Form>
-
       <Table
         dataSource={tableData}
         columns={columns}
         pagination={false}
-        style={{ marginTop: "20px" }}
+        style={{ marginTop: "2px" }}
       />
     </div>
   );
